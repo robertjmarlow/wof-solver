@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class WofBoard extends JDialog {
-    private final JPanel contentPane;
+    private JPanel contentPane;
 
     private final WofBoardBlocks boardBlocks;
     private final WordSearch wordSearch;
 
     public WofBoard() throws IOException {
-        contentPane = new JPanel();
+        //contentPane = new JPanel();
 
         setContentPane(contentPane);
         setModal(true);

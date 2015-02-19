@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * Created by RM025953 on 2/15/2015.
+ * // TODO is this best implemented as an interfaceImpl? that seems to be the Java-esque thing to do
  */
 public class WordSearchQuery {
     private final int wordLength;
@@ -65,6 +65,7 @@ public class WordSearchQuery {
         }
 
         public WordSearchQuery build() {
+            // TODO should there be a thing in here to guarantee knownLetters' key isn't greater than wordLength?
             return new WordSearchQuery(wordLength, usedLettersBuilder.build(), knownLettersBuilder.build());
         }
     }
