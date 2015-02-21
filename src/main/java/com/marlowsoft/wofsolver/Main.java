@@ -5,14 +5,16 @@ import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.bind.WofModule;
 import com.marlowsoft.wofsolver.ui.WofBoard;
 
-import java.io.IOException;
-
 /**
  * Main entry point of the application.
  *
  */
 public class Main {
-    public static void main(final String[] args) throws IOException {
+    /**
+     * Main entry point of the application.
+     * @param args Arguments to the application.
+     */
+    public static void main(final String[] args) {
         Injector injector = Guice.createInjector(new WofModule());
         final WofBoard wofBoard = new WofBoard(injector);
         wofBoard.pack();

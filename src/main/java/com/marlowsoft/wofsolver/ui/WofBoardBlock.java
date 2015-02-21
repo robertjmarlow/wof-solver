@@ -6,6 +6,9 @@ import javax.swing.*;
  * Defines a single block on the board.
  */
 public class WofBoardBlock extends JTextField {
+    /**
+     * Defines all possible block types.
+     */
     public enum BlockType {
         NO_CONTENT,
         GLYPH,
@@ -14,6 +17,10 @@ public class WofBoardBlock extends JTextField {
 
     private BlockType blockType;
 
+    /**
+     *
+     * @param blockType The type of block.
+     */
     public WofBoardBlock(final BlockType blockType) {
         this.blockType = blockType;
         setSize(20, 30);

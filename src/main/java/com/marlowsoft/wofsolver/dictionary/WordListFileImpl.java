@@ -14,8 +14,16 @@ import java.io.IOException;
  * File-backed implementation get get all words.
  */
 public class WordListFileImpl implements WordList {
-    final ImmutableList<String> wordList;
+    /**
+     * All known words.
+     */
+    final private ImmutableList<String> wordList;
 
+    /**
+     *
+     * @param filePath The path to load the file from.
+     * @throws IOException If a problem occurs when reading the file.
+     */
     @Inject
     public WordListFileImpl(@Named("WordListFileLoc")String filePath) throws IOException {
         final CharSource dictionarySource = Files.asCharSource(new File(filePath), Charsets.UTF_8);

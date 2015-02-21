@@ -6,7 +6,7 @@ import com.marlowsoft.wofsolver.dictionary.WordList;
 import com.marlowsoft.wofsolver.dictionary.WordListFileImpl;
 
 /**
- * Created by RM025953 on 2/20/2015.
+ * Binds the reading of the word list to a file-backed implementation.
  */
 public class WofModule extends AbstractModule {
     @Override

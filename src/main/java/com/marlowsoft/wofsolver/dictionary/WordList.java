@@ -9,7 +9,7 @@ public interface WordList {
     /**
      * Get all known words that can exist on the board.
      * @return All known words; i.e. a dictionary.
-     * @throws Exception
+     * @throws Exception If a problem occurs during the creation of the word list.
      */
     ImmutableList<String> getWordList() throws Exception;
 }

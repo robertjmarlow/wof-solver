@@ -5,12 +5,23 @@ import com.google.common.collect.ImmutableSet;
 
 /**
  * Default implementation of {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery}.
+ * This class is immutable.
  */
 public class WordSearchQueryImpl implements WordSearchQuery {
     private final int wordLength;
     private final ImmutableSet<Character> usedLetters;
     private final ImmutableMap<Integer, Character> knownLetters;
 
+    /**
+     * Private constructor. Build a new
+     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl} with
+     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl.WordSearchQueryBuilder}
+     * @param wordLength The length of the word.
+     * @param usedLetters All used letters.
+     * @param knownLetters All known characters where
+     *                     the key is the index of the character in the word and
+     *                     the value is the character.
+     */
     private WordSearchQueryImpl(final int wordLength,
                                 final ImmutableSet<Character> usedLetters,
                                 final ImmutableMap<Integer, Character> knownLetters) {
@@ -44,6 +55,9 @@ public class WordSearchQueryImpl implements WordSearchQuery {
      * Builds a {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl}.
      */
     public static class WordSearchQueryBuilder {
+        /**
+         * Defined default constructor.
+         */
         public WordSearchQueryBuilder() {
             wordLength = 0;
             usedLettersBuilder = ImmutableSet.builder();
@@ -70,7 +84,8 @@ public class WordSearchQueryImpl implements WordSearchQuery {
          * @param knownLetter The known letter.
          * @return This, for chaining.
          */
-        public WordSearchQueryBuilder addKnownLetter(final Integer index, final Character knownLetter) {
+        public WordSearchQueryBuilder addKnownLetter(final Integer index,
+                                                     final Character knownLetter) {
             knownLettersBuilder.put(index, knownLetter);
             return this;
         }
@@ -85,9 +100,15 @@ public class WordSearchQueryImpl implements WordSearchQuery {
             return this;
         }
 
+        /**
+         * Create a new {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl}.
+         * @return A new {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl}.
+         */
         public WordSearchQueryImpl build() {
-            // TODO should there be a thing in here to guarantee knownLetters' key isn't greater than wordLength?
-            return new WordSearchQueryImpl(wordLength, usedLettersBuilder.build(), knownLettersBuilder.build());
+            // TODO should there be a thing in here to guarantee knownLetters' key
+            // TODO isn't greater than wordLength?
+            return new WordSearchQueryImpl(wordLength, usedLettersBuilder.build(),
+                    knownLettersBuilder.build());
         }
     }
 }

@@ -4,15 +4,23 @@ import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
 
 import javax.swing.*;
-import java.io.IOException;
 
+/**
+ * Main dialog of the application.
+ * Displays a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks}
+ * and allows for user input.
+ */
 public class WofBoard extends JDialog {
     private JPanel contentPane;
 
     private final WofBoardBlocks boardBlocks;
     private final WordSearch wordSearch;
 
-    public WofBoard(final Injector injector) throws IOException {
+    /**
+     * Initializes all elements in the board.
+     * @param injector Injector that will be used to create new objects.
+     */
+    public WofBoard(final Injector injector) {
         //contentPane = new JPanel();
 
         setContentPane(contentPane);
