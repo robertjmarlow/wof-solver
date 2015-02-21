@@ -9,9 +9,13 @@ import org.junit.Test;
 import java.io.IOException;
 
 /**
- * Created by RM025953 on 2/18/2015.
+ * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearch} class.
  */
 public class WordSearchTest {
+    /**
+     * Limit the word search to a fixed amount. Verify the word is found and the fixed amount is met.
+     * @throws IOException
+     */
     @Test
     public void TestWordSearchLimited() throws IOException {
         final int matchedWordLimit = 18;
@@ -36,6 +40,10 @@ public class WordSearchTest {
         Assert.assertTrue(foundAnApple);
     }
 
+    /**
+     * Search through the <i>entire</i> dictionary for a word. Verify the word is found.
+     * @throws IOException
+     */
     @Test
     public void TestWordSearchAll() throws IOException {
         final WordSearch wordSearch = new WordSearch();
@@ -57,6 +65,10 @@ public class WordSearchTest {
         Assert.assertTrue(foundADog);
     }
 
+    /**
+     * Search through the dictionary for a word that doesn't exist. Verify the returned search result count is zero.
+     * @throws IOException
+     */
     @Test
     public void TestWordSearchNoResults() throws IOException {
         // "Zzyzx" is an unincorporated town in California

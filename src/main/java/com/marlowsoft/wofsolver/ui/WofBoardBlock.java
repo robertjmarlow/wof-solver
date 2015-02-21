@@ -3,7 +3,7 @@ package com.marlowsoft.wofsolver.ui;
 import javax.swing.*;
 
 /**
- * Created by RM025953 on 2/15/2015.
+ * Defines a single block on the board.
  */
 public class WofBoardBlock extends JTextField {
     public enum BlockType {
@@ -19,11 +19,19 @@ public class WofBoardBlock extends JTextField {
         setSize(20, 30);
     }
 
+    /**
+     * Set the block type.
+     * @param blockType The block type to set.
+     */
     public void setBlockType(final BlockType blockType) {
         this.blockType = blockType;
         // TODO apply some sort of visual stuff here
     }
 
+    /**
+     * Get the block type.
+     * @return The block type.
+     */
     public BlockType getBlockType() {
         return blockType;
     }

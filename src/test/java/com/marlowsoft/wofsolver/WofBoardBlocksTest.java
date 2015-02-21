@@ -2,23 +2,17 @@ package com.marlowsoft.wofsolver;
 
 import com.marlowsoft.wofsolver.ui.WofBoardBlock;
 import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by RM025953 on 2/15/2015.
+ * Tests the {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks} class.
  */
 public class WofBoardBlocksTest {
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
+    /**
+     * Verify that, after construction, the board blocks have the correct content type. The important blocks
+     * to look for are those four in the corners that don't have any content in them.
+     */
     @Test
     public void testGetContentTypeOfBlocks() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();
@@ -31,6 +25,10 @@ public class WofBoardBlocksTest {
         Assert.assertEquals(WofBoardBlock.BlockType.NO_GLYPH, boardBlocks.getBlock(0, 5).getBlockType());
     }
 
+    /**
+     * Verify that attempting access a block out of bounds will throw a
+     * {@link java.lang.IndexOutOfBoundsException}.
+     */
     @Test(expected=IndexOutOfBoundsException.class)
     public void testGetBlockOutOfBounds() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();

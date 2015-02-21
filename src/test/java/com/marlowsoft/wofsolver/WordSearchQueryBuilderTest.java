@@ -7,9 +7,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by RM025953 on 2/17/2015.
+ * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery.WordSearchQueryBuilder} class.
  */
 public class WordSearchQueryBuilderTest {
+    /**
+     * Verify that a {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery.WordSearchQueryBuilder} builds a
+     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery} correctly.
+     */
     @Test
     public void TestWordSearchQueryBuild() {
         final int expectedLength = 12;
@@ -21,8 +25,8 @@ public class WordSearchQueryBuilderTest {
         for(final Character expectedUsedLetter : expectedUsedLetters) {
             queryBuilder.addUsedLetter(expectedUsedLetter);
         }
-        for(final ImmutableMap.Entry<Integer, Character> expectedKnownletter : expectedKnownLetters.entrySet()) {
-            queryBuilder.addKnownLetter(expectedKnownletter.getKey(), expectedKnownletter.getValue());
+        for(final ImmutableMap.Entry<Integer, Character> expectedKnownLetter : expectedKnownLetters.entrySet()) {
+            queryBuilder.addKnownLetter(expectedKnownLetter.getKey(), expectedKnownLetter.getValue());
         }
 
         final WordSearchQuery searchQuery = queryBuilder.build();

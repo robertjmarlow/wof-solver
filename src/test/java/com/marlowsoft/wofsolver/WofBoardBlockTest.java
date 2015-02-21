@@ -1,23 +1,16 @@
 package com.marlowsoft.wofsolver;
 
 import com.marlowsoft.wofsolver.ui.WofBoardBlock;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by RM025953 on 2/15/2015.
+ * Tests the {@link com.marlowsoft.wofsolver.ui.WofBoardBlock} class.
  */
 public class WofBoardBlockTest {
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
+    /**
+     * Verify that the getters and setters function correctly.
+     */
     @Test
     public void testGetSetBlockType() {
         final WofBoardBlock boardBlock = new WofBoardBlock(WofBoardBlock.BlockType.NO_CONTENT);

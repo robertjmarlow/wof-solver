@@ -31,13 +31,6 @@ public class WordSearchQuery {
         return knownLetters;
     }
 
-    /**
-     * Things we'll need in here:
-     * 1. Letters that have been used
-     * 2. Word length
-     * 3. Known letters (at known certain positions)
-     * 4. How are we going to handle dashes and apostrophes? (there aren't any in the dictionary)
-     */
     public static class WordSearchQueryBuilder {
         public WordSearchQueryBuilder() {
             wordLength = 0;

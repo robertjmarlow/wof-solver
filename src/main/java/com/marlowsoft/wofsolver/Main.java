@@ -7,7 +7,6 @@ import java.io.IOException;
 /**
  * Main entry point of the application.
  *
- * @author RM025953
  */
 public class Main {
     public static void main(final String[] args) throws IOException {

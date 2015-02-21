@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 /**
- * Created by RM025953 on 2/15/2015.
+ * This class contains a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
  */
 public class WofBoardBlocks {
     private static final int COLUMN_COUNT = 14;
@@ -33,10 +33,25 @@ public class WofBoardBlocks {
         boardBlocks = boardBlockBuilder.build();
     }
 
+    /**
+     * Get the block at the specified row and column.
+     * @param row The row to get the block from.
+     * @param column The column to get the block from.
+     * @return The block at the specified row and column.
+     * @throws IndexOutOfBoundsException If the specified row and column are out of bounds of the scoreboard.
+     */
     public WofBoardBlock getBlock(final int row, final int column) throws IndexOutOfBoundsException {
         return boardBlocks.get(row).get(column);
     }
 
+    /**
+     * Determines whether or not the specified row and column can contain content. The four blocks in the corners
+     * of the board <i>cannot</i> contain content. This function will, in other words, say whether or not the specified
+     * row and column are one of the corner blocks.
+     * @param row The row to check for a content block.
+     * @param column The column to check for a content block.
+     * @return <tt>true</tt> if the specified row and column can contain a content block; <tt>false</tt> otherwise.
+     */
     private boolean isContentBlock(final int row, final int column) {
         // is this out of bounds?
         if(row < 0 || column < 0 || row > ROW_COUNT || column > COLUMN_COUNT) {
