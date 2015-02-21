@@ -2,17 +2,17 @@ package com.marlowsoft.wofsolver;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.marlowsoft.wofsolver.dictionary.WordSearchQuery;
+import com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery.WordSearchQueryBuilder} class.
+ * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl.WordSearchQueryBuilder} class.
  */
-public class WordSearchQueryBuilderTest {
+public class WordSearchQueryImplBuilderTest {
     /**
-     * Verify that a {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery.WordSearchQueryBuilder} builds a
-     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery} correctly.
+     * Verify that a {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl.WordSearchQueryBuilder} builds a
+     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl} correctly.
      */
     @Test
     public void TestWordSearchQueryBuild() {
@@ -20,7 +20,7 @@ public class WordSearchQueryBuilderTest {
         final ImmutableList<Character> expectedUsedLetters = ImmutableList.of('t', 'E', 's', 't');
         final ImmutableMap<Integer, Character> expectedKnownLetters = ImmutableMap.of(2, 'o', 3, 'b', 5, 'r');
 
-        final WordSearchQuery.WordSearchQueryBuilder queryBuilder = new WordSearchQuery.WordSearchQueryBuilder();
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
         queryBuilder.setWordLength(expectedLength);
         for(final Character expectedUsedLetter : expectedUsedLetters) {
             queryBuilder.addUsedLetter(expectedUsedLetter);
@@ -29,7 +29,7 @@ public class WordSearchQueryBuilderTest {
             queryBuilder.addKnownLetter(expectedKnownLetter.getKey(), expectedKnownLetter.getValue());
         }
 
-        final WordSearchQuery searchQuery = queryBuilder.build();
+        final WordSearchQueryImpl searchQuery = queryBuilder.build();
 
         Assert.assertEquals(expectedLength, searchQuery.getWordLength());
         Assert.assertTrue(searchQuery.getUsedLetters().contains('t'));

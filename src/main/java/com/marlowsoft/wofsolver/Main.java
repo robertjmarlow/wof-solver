@@ -1,5 +1,8 @@
 package com.marlowsoft.wofsolver;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.marlowsoft.wofsolver.bind.WofModule;
 import com.marlowsoft.wofsolver.ui.WofBoard;
 
 import java.io.IOException;
@@ -10,7 +13,8 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(final String[] args) throws IOException {
-        final WofBoard wofBoard = new WofBoard();
+        Injector injector = Guice.createInjector(new WofModule());
+        final WofBoard wofBoard = new WofBoard(injector);
         wofBoard.pack();
         wofBoard.setVisible(true);
         System.exit(0);

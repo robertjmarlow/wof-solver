@@ -1,9 +1,13 @@
 package com.marlowsoft.wofsolver;
 
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.marlowsoft.wofsolver.bind.WofModule;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
-import com.marlowsoft.wofsolver.dictionary.WordSearchQuery;
+import com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,6 +16,13 @@ import java.io.IOException;
  * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearch} class.
  */
 public class WordSearchTest {
+    public static Injector injector;
+
+    @BeforeClass
+    public static void beforeClass() {
+        injector = Guice.createInjector(new WofModule());
+    }
+
     /**
      * Limit the word search to a fixed amount. Verify the word is found and the fixed amount is met.
      * @throws IOException
@@ -19,8 +30,8 @@ public class WordSearchTest {
     @Test
     public void TestWordSearchLimited() throws IOException {
         final int matchedWordLimit = 18;
-        final WordSearch wordSearch = new WordSearch();
-        final WordSearchQuery.WordSearchQueryBuilder queryBuilder = new WordSearchQuery.WordSearchQueryBuilder();
+        final WordSearch wordSearch = injector.getInstance(WordSearch.class);
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
         queryBuilder.setWordLength(5);
         queryBuilder.addKnownLetter(0, 'a');
         queryBuilder.addKnownLetter(3, 'l');
@@ -46,8 +57,8 @@ public class WordSearchTest {
      */
     @Test
     public void TestWordSearchAll() throws IOException {
-        final WordSearch wordSearch = new WordSearch();
-        final WordSearchQuery.WordSearchQueryBuilder queryBuilder = new WordSearchQuery.WordSearchQueryBuilder();
+        final WordSearch wordSearch = injector.getInstance(WordSearch.class);
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
         queryBuilder.setWordLength(3);
         queryBuilder.addKnownLetter(0, 'd');
         queryBuilder.addKnownLetter(1, 'o');
@@ -73,8 +84,8 @@ public class WordSearchTest {
     public void TestWordSearchNoResults() throws IOException {
         // "Zzyzx" is an unincorporated town in California
         // http://en.wikipedia.org/wiki/Zzyzx,_California
-        final WordSearch wordSearch = new WordSearch();
-        final WordSearchQuery.WordSearchQueryBuilder queryBuilder = new WordSearchQuery.WordSearchQueryBuilder();
+        final WordSearch wordSearch = injector.getInstance(WordSearch.class);
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
         queryBuilder.setWordLength(5);
         queryBuilder.addKnownLetter(0, 'z');
         queryBuilder.addKnownLetter(1, 'z');

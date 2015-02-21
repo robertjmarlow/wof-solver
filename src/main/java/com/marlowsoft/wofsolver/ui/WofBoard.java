@@ -1,5 +1,6 @@
 package com.marlowsoft.wofsolver.ui;
 
+import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ public class WofBoard extends JDialog {
     private final WofBoardBlocks boardBlocks;
     private final WordSearch wordSearch;
 
-    public WofBoard() throws IOException {
+    public WofBoard(final Injector injector) throws IOException {
         //contentPane = new JPanel();
 
         setContentPane(contentPane);
@@ -23,6 +24,6 @@ public class WofBoard extends JDialog {
         setLocationRelativeTo(null);
 
         boardBlocks = new WofBoardBlocks();
-        wordSearch = new WordSearch();
+        wordSearch = injector.getInstance(WordSearch.class);
     }
 }

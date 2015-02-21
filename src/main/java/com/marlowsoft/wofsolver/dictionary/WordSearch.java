@@ -1,33 +1,24 @@
 package com.marlowsoft.wofsolver.dictionary;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.io.CharSource;
-import com.google.common.io.Files;
+import com.google.inject.Inject;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Gets a collection of matched words based on a {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery}.
+ * Gets a collection of matched words based on a {@link WordSearchQueryImpl}.
  */
 public class WordSearch {
     private final ImmutableList<String> dictionaryEntries;
     private final ImmutableMultimap<Integer, String> knownLengthEntries;
 
-    public WordSearch() throws IOException {
-        // TODO do we want to put this behind an interface or something?
-        // TODO hardcoding that file isn't a good thing...
-        final CharSource dictionarySource = Files.asCharSource(new File("src/main/resources/words.txt"), Charsets.UTF_8);
-
+    @Inject
+    public WordSearch(final WordList wordList) throws Exception {
         final ImmutableList.Builder<String> dictionaryEntriesBuilder = ImmutableList.builder();
         final ImmutableMultimap.Builder<Integer, String> knownLengthEntriesBuilder = ImmutableMultimap.builder();
 
-        for(final String dictionaryEntry : dictionarySource.readLines()) {
+        for(final String dictionaryEntry : wordList.getWordList()) {
             dictionaryEntriesBuilder.add(dictionaryEntry);
             knownLengthEntriesBuilder.put(dictionaryEntry.length(), dictionaryEntry);
         }
@@ -43,7 +34,7 @@ public class WordSearch {
      * @param searchQuery The query to match words.
      * @return <i>All</i> matched words, based on the specified query.
      */
-    public ImmutableList<String> getMatchedWords(final WordSearchQuery searchQuery) {
+    public ImmutableList<String> getMatchedWords(final WordSearchQueryImpl searchQuery) {
         // the length of all the dictionary entries ought to be a good way to say, "give me everything".
         return getMatchedWords(searchQuery, dictionaryEntries.size());
     }
@@ -54,7 +45,7 @@ public class WordSearch {
      * @param matchedWordLimit The maximum number of words to match.
      * @return A <i>maximum</i> of the specified amount of limit of matched words.
      */
-    public ImmutableList<String> getMatchedWords(final WordSearchQuery searchQuery, final int matchedWordLimit) {
+    public ImmutableList<String> getMatchedWords(final WordSearchQueryImpl searchQuery, final int matchedWordLimit) {
         final ImmutableList.Builder<String> matchedWordsBuilder = ImmutableList.builder();
 
         // first, get the matched word length; this should narrow things down a lot
@@ -80,12 +71,12 @@ public class WordSearch {
     }
 
     /**
-     * Get a regex {@link java.util.regex.Pattern} based on the specified {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery}.
+     * Get a regex {@link java.util.regex.Pattern} based on the specified {@link WordSearchQueryImpl}.
      * @param searchQuery The query used to build the {@link java.util.regex.Pattern}.
      * @return A {@link java.util.regex.Pattern} optimized for searching for word matches based on the specified
-     * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery}.
+     * {@link WordSearchQueryImpl}.
      */
-    private Pattern getWordPattern(final WordSearchQuery searchQuery) {
+    private Pattern getWordPattern(final WordSearchQueryImpl searchQuery) {
         final StringBuilder stringBuilder = new StringBuilder();
 
         // for every known letter, insert the letter

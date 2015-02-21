@@ -4,62 +4,26 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * // TODO is this best implemented as an interfaceImpl? that seems to be the Java-esque thing to do
+ * Defines everything needed for a word search.
  */
-public class WordSearchQuery {
-    private final int wordLength;
-    private final ImmutableSet<Character> usedLetters;
-    private final ImmutableMap<Integer, Character> knownLetters;
+public interface WordSearchQuery {
+    /**
+     * Gets the length of the word.
+     * @return The length of the word.
+     */
+    int getWordLength();
 
-    private WordSearchQuery(final int wordLength,
-                            final ImmutableSet<Character> usedLetters,
-                            final ImmutableMap<Integer, Character> knownLetters) {
-        this.wordLength = wordLength;
-        this.usedLetters = usedLetters;
-        this.knownLetters = knownLetters;
-    }
+    /**
+     * Get all letters that have been used.
+     * @return All letters that have been used.
+     */
+    ImmutableSet<Character> getUsedLetters();
 
-    public int getWordLength() {
-        return wordLength;
-    }
-
-    public ImmutableSet<Character> getUsedLetters() {
-        return usedLetters;
-    }
-
-    public ImmutableMap<Integer, Character> getKnownLetters() {
-        return knownLetters;
-    }
-
-    public static class WordSearchQueryBuilder {
-        public WordSearchQueryBuilder() {
-            wordLength = 0;
-            usedLettersBuilder = ImmutableSet.builder();
-            knownLettersBuilder = ImmutableMap.builder();
-        }
-
-        private int wordLength;
-        private final ImmutableSet.Builder<Character> usedLettersBuilder;
-        private final ImmutableMap.Builder<Integer, Character> knownLettersBuilder;
-
-        public WordSearchQueryBuilder addUsedLetter(final Character usedLetter) {
-            usedLettersBuilder.add(usedLetter);
-            return this;
-        }
-
-        public WordSearchQueryBuilder addKnownLetter(final Integer index, final Character knownLetter) {
-            knownLettersBuilder.put(index, knownLetter);
-            return this;
-        }
-
-        public WordSearchQueryBuilder setWordLength(final int wordLength) {
-            this.wordLength = wordLength;
-            return this;
-        }
-
-        public WordSearchQuery build() {
-            // TODO should there be a thing in here to guarantee knownLetters' key isn't greater than wordLength?
-            return new WordSearchQuery(wordLength, usedLettersBuilder.build(), knownLettersBuilder.build());
-        }
-    }
+    /**
+     * Get all known letters in the word where
+     * the key is the index of the character and
+     * the key is the known character.
+     * @return All known letters in the word.
+     */
+    ImmutableMap<Integer, Character> getKnownLetters();
 }
