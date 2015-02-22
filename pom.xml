@@ -7,12 +7,19 @@
 	<groupId>com.marlowsoft</groupId>
 	<artifactId>wof-solver</artifactId>
 	<version>1.0-SNAPSHOT</version>
+	<description>Java swing project that will help to solve puzzles on "Wheel of Fortune".</description>
 	<properties>
 		<project.javaVersion>1.7</project.javaVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<checkstyle.config.location>${project.basedir}/config/checkstyle.xml</checkstyle.config.location>
-	</properties>	
+	</properties>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 	<developers>
 		<developer>
 			<name>Rob Marlow</name>
@@ -62,19 +69,6 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.14</version>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-changelog-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<type>date</type>
-					<dates>
-						<date implementation="java.lang.String">2014-10-30</date>
-					</dates>
-					<dateFormat>yyyy-MM-dd</dateFormat>
-					<outputEncoding>UTF-8</outputEncoding>
-				</configuration>
-			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -82,14 +76,6 @@
 				<configuration>
 					<effort>Max</effort>
 					<threshold>Low</threshold>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.2</version>
-				<configuration>
-					<targetJdk>1.6</targetJdk>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -202,6 +188,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.4.3</version>
 			</plugin>
+			<!-- TODO there seems to be some problem with the swing framework when running the assembled application -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -228,25 +215,6 @@
 					</platforms>
 				</configuration>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>src/assembly/bin.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions> 
-			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
