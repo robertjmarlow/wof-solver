@@ -5,6 +5,9 @@ import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * Tests the {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks} class.
  */
@@ -33,5 +36,34 @@ public class WofBoardBlocksTest {
     public void testGetBlockOutOfBounds() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();
         boardBlocks.getBlock(99, 99);
+    }
+
+    /**
+     * Verify that the proper amount of blocks get added to the panel.
+     */
+    @Test
+    public void testAddBlocksToJPanel() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+        final JPanel jPanel = new JPanel();
+        jPanel.setLayout(new GridBagLayout());
+
+        boardBlocks.addBlocksToPanel(jPanel);
+
+        final Component[] components = jPanel.getComponents();
+        Assert.assertEquals(
+                WofBoardBlocks.ROW_COUNT * WofBoardBlocks.COLUMN_COUNT,
+                components.length);
+    }
+
+    /**
+     * Verify that attempting to add the board blocks to a JPanel with an incorrect
+     * layout will throw an {@link java.lang.IllegalArgumentException}.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testIllegalLayout() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+
+        // JPanels will be constructed with a FlowLayout by default
+        boardBlocks.addBlocksToPanel(new JPanel());
     }
 }

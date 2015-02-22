@@ -3,14 +3,16 @@ package com.marlowsoft.wofsolver.ui;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
  * This class contains a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
  */
 public class WofBoardBlocks {
-    private static final int COLUMN_COUNT = 14;
-    private static final int ROW_COUNT = 4;
+    public static final int COLUMN_COUNT = 14;
+    public static final int ROW_COUNT = 4;
 
     private final ImmutableList<ImmutableList<WofBoardBlock>> boardBlocks;
 
@@ -48,6 +50,32 @@ public class WofBoardBlocks {
     public WofBoardBlock getBlock(final int row,
                                   final int column) throws IndexOutOfBoundsException {
         return boardBlocks.get(row).get(column);
+    }
+
+    /**
+     * Add the entire collection of board blocks to the specified JPanel.
+     * @param jPanel The JPanel to add all the board blocks to. Note that:
+     *               <ol>
+     *               <li>All components in this panel will be removed.</li>
+     *               <li>The layout needs to be a {@link java.awt.GridBagLayout}.</li>
+     *               </ol>
+     * @throws IllegalArgumentException If the layout of jPanel is
+     * not a {@link java.awt.GridBagLayout}.
+     */
+    public void addBlocksToPanel(final JPanel jPanel) throws IllegalArgumentException {
+        if(jPanel.getLayout() instanceof GridBagLayout) {
+            final GridBagConstraints constraints = new GridBagConstraints();
+            jPanel.removeAll();
+            for(int curRow = 0; curRow < WofBoardBlocks.ROW_COUNT; curRow++) {
+                for(int curColumn = 0; curColumn < WofBoardBlocks.COLUMN_COUNT; curColumn++) {
+                    constraints.gridx = curColumn;
+                    constraints.gridy = curRow;
+                    jPanel.add(getBlock(curRow, curColumn), constraints);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("The specified JPanel's layout needs to be a GridBagLayout");
+        }
     }
 
     /**
