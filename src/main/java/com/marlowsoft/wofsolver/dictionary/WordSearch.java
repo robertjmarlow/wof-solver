@@ -3,6 +3,7 @@ package com.marlowsoft.wofsolver.dictionary;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.inject.Inject;
+import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
 
 import java.util.regex.Pattern;
 
@@ -26,8 +27,12 @@ public class WordSearch {
                 ImmutableMultimap.builder();
 
         for(final String dictionaryEntry : wordList.getWordList()) {
-            dictionaryEntriesBuilder.add(dictionaryEntry);
-            knownLengthEntriesBuilder.put(dictionaryEntry.length(), dictionaryEntry);
+            // there isn't a need to add a word to our known list of words if the word
+            // is longer than the scoreboard because the word won't fit
+            if(dictionaryEntry.length() <= WofBoardBlocks.COLUMN_COUNT) {
+                dictionaryEntriesBuilder.add(dictionaryEntry);
+                knownLengthEntriesBuilder.put(dictionaryEntry.length(), dictionaryEntry);
+            }
         }
 
         dictionaryEntries = dictionaryEntriesBuilder.build();
@@ -90,6 +95,7 @@ public class WordSearch {
     private Pattern getWordPattern(final WordSearchQueryImpl searchQuery) {
         final StringBuilder stringBuilder = new StringBuilder();
 
+        // TODO this could be vastly improved by using the used letters collection
         // for every known letter, insert the letter
         // for every unknown letter, insert a '.', or a wildcard
         for(int charIdx = 0; charIdx < searchQuery.getWordLength(); charIdx++) {
