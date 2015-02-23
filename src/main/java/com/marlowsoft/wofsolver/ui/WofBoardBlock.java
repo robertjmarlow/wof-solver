@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class WofBoardBlock extends JTextField {
     private static final Color GLYPH_BG_COLOR = new Color(255, 255, 255);
     private static final Color NO_GLYPH_BG_COLOR = new Color(27, 119, 56);
-    private static final Color NO_CONTENT_BG_COLOR = new Color(255, 255, 255, 0);
+    private static final Color NO_CONTENT_BG_COLOR = new Color(174, 174, 174);
 
     private static final int FONT_SIZE = 40;
     private static final Font blockFont = new Font(Font.MONOSPACED, Font.BOLD, FONT_SIZE);

@@ -1,9 +1,11 @@
 package com.marlowsoft.wofsolver.ui;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Main dialog of the application.
@@ -17,6 +19,7 @@ public class WofBoard extends JDialog {
 
     private final WofBoardBlocks boardBlocks;
     private final WordSearch wordSearch;
+    private final ImmutableMap<Character, LetterLabel> letterLabels;
 
     /**
      * Initializes all elements in the board.
@@ -36,5 +39,28 @@ public class WofBoard extends JDialog {
         wordSearch = injector.getInstance(WordSearch.class);
 
         boardBlocks.addBlocksToPanel(gameBoardPane);
+
+        // construct the panel with the used letters
+        final ImmutableMap.Builder<Character, LetterLabel> letterLabelsBuilder =
+                ImmutableMap.builder();
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridwidth = 26;
+        constraints.gridheight = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        usedLettersPane.add(new JLabel("Used Letters"), constraints);
+
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridy = 1;
+        constraints.ipadx = 5;
+        constraints.ipady = 5;
+        for(char curChar = 'A'; curChar <= 'Z'; curChar++) {
+            constraints.gridx = curChar - 'A';
+            final LetterLabel letterLabel = new LetterLabel(curChar);
+            usedLettersPane.add(letterLabel, constraints);
+            letterLabelsBuilder.put(curChar, letterLabel);
+        }
+        letterLabels = letterLabelsBuilder.build();
     }
 }
