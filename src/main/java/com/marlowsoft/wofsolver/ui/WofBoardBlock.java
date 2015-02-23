@@ -83,7 +83,7 @@ public class WofBoardBlock extends JTextField {
      *     <li>A character can be entered in a word block only if the block is empty.</li>
      * </ol>
      */
-    private class BoardBlockFieldLimit extends PlainDocument {
+    private static class BoardBlockFieldLimit extends PlainDocument {
         private final Pattern allowedLetters = Pattern.compile("[a-zA-Z']");
 
         /**
@@ -96,7 +96,7 @@ public class WofBoardBlock extends JTextField {
             if((getLength() == 0) &&
                     (str.length() == 1) &&
                     (allowedLetters.matcher(str).matches())) {
-                super.insertString(0, str.substring(0, 1).toUpperCase(), attr);
+                super.insertString(0, str.substring(0, 1).toUpperCase(getDefaultLocale()), attr);
             }
         }
     }
@@ -104,7 +104,7 @@ public class WofBoardBlock extends JTextField {
     /**
      * Handler for events for a {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
      */
-    private class BoardBlockEventListener implements MouseListener {
+    private static class BoardBlockEventListener implements MouseListener {
         final WofBoardBlock boardBlock;
 
         /**
