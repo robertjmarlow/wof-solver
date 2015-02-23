@@ -16,6 +16,8 @@ public class WofBoardBlock extends JTextField {
     private static final Color NO_GLYPH_BG_COLOR = new Color(27, 119, 56);
     private static final Color NO_CONTENT_BG_COLOR = new Color(255, 255, 255, 0);
 
+    private static final int FONT_SIZE = 40;
+    private static final Font blockFont = new Font(Font.MONOSPACED, Font.BOLD, FONT_SIZE);
     /**
      * Defines all possible block types.
      */
@@ -33,6 +35,8 @@ public class WofBoardBlock extends JTextField {
      */
     public WofBoardBlock(final BlockType blockType) {
         setBlockType(blockType);
+
+        setFont(blockFont);
 
         setColumns(1);
 
@@ -84,7 +88,7 @@ public class WofBoardBlock extends JTextField {
      * </ol>
      */
     private static class BoardBlockFieldLimit extends PlainDocument {
-        private final Pattern allowedLetters = Pattern.compile("[a-zA-Z']");
+        private final Pattern allowedLetters = Pattern.compile("[a-zA-Z'\\-]");
 
         /**
          * {@inheritDoc}
@@ -142,6 +146,7 @@ public class WofBoardBlock extends JTextField {
         @Override
         public void mousePressed(MouseEvent event) {
             toggleBlockType(event);
+            boardBlock.grabFocus();
         }
 
         /**
