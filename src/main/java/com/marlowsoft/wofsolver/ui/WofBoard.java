@@ -4,7 +4,6 @@ import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Main dialog of the application.

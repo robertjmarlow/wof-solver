@@ -54,27 +54,28 @@ public class WofBoardBlocks {
 
     /**
      * Add the entire collection of board blocks to the specified JPanel.
-     * @param jPanel The JPanel to add all the board blocks to. Note that:
+     * @param jpanel The JPanel to add all the board blocks to. Note that:
      *               <ol>
      *               <li>All components in this panel will be removed.</li>
      *               <li>The layout needs to be a {@link java.awt.GridBagLayout}.</li>
      *               </ol>
-     * @throws IllegalArgumentException If the layout of jPanel is
+     * @throws IllegalArgumentException If the layout of jpanel is
      * not a {@link java.awt.GridBagLayout}.
      */
-    public void addBlocksToPanel(final JPanel jPanel) throws IllegalArgumentException {
-        if(jPanel.getLayout() instanceof GridBagLayout) {
+    public void addBlocksToPanel(final JPanel jpanel) throws IllegalArgumentException {
+        if(jpanel.getLayout() instanceof GridBagLayout) {
             final GridBagConstraints constraints = new GridBagConstraints();
-            jPanel.removeAll();
+            jpanel.removeAll();
             for(int curRow = 0; curRow < WofBoardBlocks.ROW_COUNT; curRow++) {
                 for(int curColumn = 0; curColumn < WofBoardBlocks.COLUMN_COUNT; curColumn++) {
                     constraints.gridx = curColumn;
                     constraints.gridy = curRow;
-                    jPanel.add(getBlock(curRow, curColumn), constraints);
+                    jpanel.add(getBlock(curRow, curColumn), constraints);
                 }
             }
         } else {
-            throw new IllegalArgumentException("The specified JPanel's layout needs to be a GridBagLayout");
+            throw new IllegalArgumentException(
+                    "The specified JPanel's layout needs to be aGridBagLayout");
         }
     }
 
