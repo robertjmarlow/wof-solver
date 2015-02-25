@@ -1,11 +1,9 @@
 package com.marlowsoft.wofsolver.ui;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * This class contains a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
@@ -21,11 +19,11 @@ public class WofBoardBlocks {
      */
     public WofBoardBlocks() {
         // construct the boardBlock rows/columns
-        ImmutableList.Builder<ImmutableList<WofBoardBlock>> boardBlockBuilder =
+        final ImmutableList.Builder<ImmutableList<WofBoardBlock>> boardBlockBuilder =
                 ImmutableList.builder();
 
         for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
-            List<WofBoardBlock> columnBlocks = Lists.newArrayList();
+            final ImmutableList.Builder<WofBoardBlock> columnBlocks = ImmutableList.builder();
             for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
                 if(isContentBlock(curRow, curColumn)) {
                     columnBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.NO_GLYPH));
@@ -33,7 +31,7 @@ public class WofBoardBlocks {
                     columnBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.NO_CONTENT));
                 }
             }
-            boardBlockBuilder.add(ImmutableList.copyOf(columnBlocks));
+            boardBlockBuilder.add(columnBlocks.build());
         }
 
         boardBlocks = boardBlockBuilder.build();
