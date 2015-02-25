@@ -43,6 +43,11 @@
 			<artifactId>forms_rt</artifactId>
 			<version>7.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>
@@ -205,7 +210,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.4.3</version>
 			</plugin>
-			<!-- TODO there seems to be some problem with the swing framework when running the assembled application -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -230,7 +234,7 @@
 					<platforms>
 						<platform>windows</platform>
 					</platforms>
-					<!--<showConsoleWindow>false</showConsoleWindow>-->
+					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 			</plugin>
 			<plugin>

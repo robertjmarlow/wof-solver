@@ -14,6 +14,6 @@ public class WofModule extends AbstractModule {
         bind(WordList.class).to(WordListFileImpl.class);
         bind(String.class)
                 .annotatedWith(Names.named("WordListFileLoc"))
-                .toInstance("src/main/resources/words.txt");
+                .toInstance("words.txt");
     }
 }

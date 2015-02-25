@@ -1,13 +1,10 @@
 package com.marlowsoft.wofsolver.dictionary;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.google.common.io.CharSource;
-import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -25,9 +22,10 @@ public class WordListFileImpl implements WordList {
      * @throws IOException If a problem occurs when reading the file.
      */
     @Inject
-    public WordListFileImpl(@Named("WordListFileLoc")String filePath) throws IOException {
-        final CharSource dictionarySource = Files.asCharSource(new File(filePath), Charsets.UTF_8);
-        wordList = dictionarySource.readLines();
+    public WordListFileImpl(@Named("WordListFileLoc")String filePath)
+            throws IOException {
+        wordList = ImmutableList.copyOf(IOUtils.readLines(getClass().
+                getClassLoader().getResourceAsStream(filePath)));
     }
 
     /**

@@ -14,6 +14,9 @@ public class LetterLabel extends JLabel {
     private static final Color unusedLetterColor = new Color(0, 0, 0, 50);
     private static final float FONT_SIZE = 18;
 
+    /**
+     * Defines the type of guess for this block
+     */
     public enum GuessType {
         CORRECT,
         INCORRECT,
@@ -22,6 +25,10 @@ public class LetterLabel extends JLabel {
 
     private GuessType guessType;
 
+    /**
+     *
+     * @param letter The letter for this label.
+     */
     public LetterLabel(final char letter) {
         this.letter = letter;
         hasBeenUsed = false;
@@ -32,10 +39,18 @@ public class LetterLabel extends JLabel {
         setFont(getFont().deriveFont(FONT_SIZE));
     }
 
+    /**
+     * Get the type of guess.
+     * @return The type of guess.
+     */
     public GuessType getGuessType() {
         return guessType;
     }
 
+    /**
+     * Set the type of guess.
+     * @param guessType The type of guess.
+     */
     public void setGuessType(final GuessType guessType) {
         this.guessType = guessType;
     }
