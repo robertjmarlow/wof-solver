@@ -73,7 +73,7 @@ public class WofBoardBlocks {
             }
         } else {
             throw new IllegalArgumentException(
-                    "The specified JPanel's layout needs to be aGridBagLayout");
+                    "The specified JPanel's layout needs to be a GridBagLayout");
         }
     }
 
