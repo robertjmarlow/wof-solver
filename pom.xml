@@ -231,9 +231,6 @@
 					</programs>
 					<repositoryLayout>flat</repositoryLayout>
 					<useWildcardClassPath>true</useWildcardClassPath>
-					<platforms>
-						<platform>windows</platform>
-					</platforms>
 					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 			</plugin>
