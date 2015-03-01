@@ -27,12 +27,8 @@ public class WordSearch {
                 ImmutableMultimap.builder();
 
         for(final String dictionaryEntry : wordList.getWordList()) {
-            // there isn't a need to add a word to our known list of words if the word
-            // is longer than the scoreboard because the word won't fit
-            if(dictionaryEntry.length() <= WofBoardBlocks.COLUMN_COUNT) {
-                dictionaryEntriesBuilder.add(dictionaryEntry);
-                knownLengthEntriesBuilder.put(dictionaryEntry.length(), dictionaryEntry);
-            }
+            dictionaryEntriesBuilder.add(dictionaryEntry);
+            knownLengthEntriesBuilder.put(dictionaryEntry.length(), dictionaryEntry);
         }
 
         dictionaryEntries = dictionaryEntriesBuilder.build();
