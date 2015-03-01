@@ -66,4 +66,42 @@ public class WofBoardBlocksTest {
         // JPanels will be constructed with a FlowLayout by default
         boardBlocks.addBlocksToPanel(new JPanel());
     }
+
+    /**
+     * Verify that resetting all blocks will set their text to an empty string and
+     * their block type to no glyph.
+     */
+    @Test
+    public void testResetBlocks() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+
+        boardBlocks.getBlock(1, 4).setText("This should be removed!");
+        boardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlocks.resetBlocks();
+
+        Assert.assertEquals("", boardBlocks.getBlock(1, 4).getText());
+        Assert.assertEquals(WofBoardBlock.BlockType.NO_GLYPH,
+                boardBlocks.getBlock(1, 4).getBlockType());
+    }
+
+    /**
+     * Verify that locking blocks will disallow the setting of the block type.
+     * Verify that unlocking blocks will allow the setting of the block type.
+     */
+    @Test
+    public void testLockUnlockBlocks() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+
+        boardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.NO_GLYPH);
+        boardBlocks.lockBlocks();
+        boardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.GLYPH);
+        Assert.assertEquals(WofBoardBlock.BlockType.NO_GLYPH,
+                boardBlocks.getBlock(1, 4).getBlockType());
+
+        boardBlocks.unlockBlocks();
+        boardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.GLYPH);
+        Assert.assertEquals(WofBoardBlock.BlockType.GLYPH,
+                boardBlocks.getBlock(1, 4).getBlockType());
+    }
 }

@@ -19,6 +19,8 @@ public class WofBoardBlock extends JTextField {
     private static final int FONT_SIZE = 36;
     private static final Font blockFont = new Font(Font.SERIF, Font.BOLD, FONT_SIZE);
 
+    private boolean isLocked;
+
     /**
      * Defines all possible block types.
      */
@@ -46,6 +48,8 @@ public class WofBoardBlock extends JTextField {
     public WofBoardBlock(final BlockType blockType, final boolean suggestedBlock) {
         setBlockType(blockType);
 
+        isLocked = false;
+
         setFont(blockFont);
 
         setColumns(1);
@@ -62,6 +66,10 @@ public class WofBoardBlock extends JTextField {
      * @param blockType The block type to set.
      */
     public void setBlockType(final BlockType blockType) {
+        if(isLocked) {
+            return;
+        }
+
         this.blockType = blockType;
 
         switch(blockType) {
@@ -90,6 +98,20 @@ public class WofBoardBlock extends JTextField {
      */
     public BlockType getBlockType() {
         return blockType;
+    }
+
+    /**
+     * Disallow the changing of the type of block.
+     */
+    public void lockBlock() {
+        isLocked = true;
+    }
+
+    /**
+     * Allow the changing of the type of block.
+     */
+    public void unlockBlock() {
+        isLocked = false;
     }
 
     /**

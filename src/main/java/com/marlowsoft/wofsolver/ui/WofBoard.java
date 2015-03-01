@@ -65,26 +65,22 @@ public class WofBoard extends JDialog {
         }
         letterLabels = letterLabelsBuilder.build();
 
-        buttonResetBoard.addActionListener(
-                new ResetBoardActionListener(boardBlocks, suggestedBoardBlocks));
+        buttonStart.addActionListener(new StartGameActionListener(this));
+        buttonResetBoard.addActionListener(new ResetBoardActionListener(this));
     }
 
     /**
      * Listener for clicking on the "Reset Board" button.
      */
     private static class ResetBoardActionListener implements ActionListener {
-        private final WofBoardBlocks boardBlocks;
-        private final WofBoardBlocks suggestedBoardBlocks;
+        private final WofBoard wofBoard;
 
         /**
          *
-         * @param boardBlocks The play field.
-         * @param suggestedBoardBlocks The "suggested" play field.
+         * @param wofBoard The entire board.
          */
-        public ResetBoardActionListener(final WofBoardBlocks boardBlocks,
-                                        final WofBoardBlocks suggestedBoardBlocks) {
-            this.boardBlocks = boardBlocks;
-            this.suggestedBoardBlocks = suggestedBoardBlocks;
+        public ResetBoardActionListener(final WofBoard wofBoard) {
+            this.wofBoard = wofBoard;
         }
 
         /**
@@ -96,9 +92,35 @@ public class WofBoard extends JDialog {
                     "Are you sure you want to reset the game board?", "Reset Board?",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) ==
                     JOptionPane.YES_OPTION) {
-                boardBlocks.resetBlocks();
-                suggestedBoardBlocks.resetBlocks();
+                wofBoard.boardBlocks.unlockBlocks();
+                wofBoard.boardBlocks.resetBlocks();
+                wofBoard.suggestedBoardBlocks.resetBlocks();
+                wofBoard.buttonStart.setEnabled(true);
             }
+        }
+    }
+
+    /**
+     * Listener for clicking on the "Start Game" button.
+     */
+    private static class StartGameActionListener implements ActionListener {
+        private final WofBoard wofBoard;
+
+        /**
+         *
+         * @param wofBoard The entire board.
+         */
+        public StartGameActionListener(final WofBoard wofBoard) {
+            this.wofBoard = wofBoard;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            wofBoard.buttonStart.setEnabled(false);
+            wofBoard.boardBlocks.lockBlocks();
         }
     }
 }

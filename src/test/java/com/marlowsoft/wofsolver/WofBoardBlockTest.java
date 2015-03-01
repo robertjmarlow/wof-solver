@@ -20,4 +20,23 @@ public class WofBoardBlockTest {
         boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
         Assert.assertEquals(WofBoardBlock.BlockType.GLYPH, boardBlock.getBlockType());
     }
+
+    /**
+     * Verify that if a {@link com.marlowsoft.wofsolver.ui.WofBoardBlock} is locked, its
+     * type cannot be changed.
+     * Verify that if a {@link com.marlowsoft.wofsolver.ui.WofBoardBlock} is unlocked, its
+     * type can be changed.
+     */
+    @Test
+    public void testLockUnlockBlock() {
+        final WofBoardBlock boardBlock = new WofBoardBlock(WofBoardBlock.BlockType.NO_CONTENT);
+        boardBlock.lockBlock();
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        Assert.assertEquals(WofBoardBlock.BlockType.NO_CONTENT, boardBlock.getBlockType());
+
+        boardBlock.unlockBlock();
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+        Assert.assertEquals(WofBoardBlock.BlockType.GLYPH, boardBlock.getBlockType());
+    }
 }

@@ -107,6 +107,32 @@ public class WofBoardBlocks {
     }
 
     /**
+     * Disallow the changing of the type of block to all blocks that are <i>not</i> no-content type.
+     */
+    public void lockBlocks() {
+        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
+            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
+                if(isContentBlock(curRow, curColumn)) {
+                    getBlock(curRow, curColumn).lockBlock();
+                }
+            }
+        }
+    }
+
+    /**
+     * Allow the changing of the type of block to all blocks that are <i>not</i> no-content type.
+     */
+    public void unlockBlocks() {
+        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
+            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
+                if(isContentBlock(curRow, curColumn)) {
+                    getBlock(curRow, curColumn).unlockBlock();
+                }
+            }
+        }
+    }
+
+    /**
      * Determines whether or not the specified row and column can contain content.
      * The four blocks in the corners of the board <i>cannot</i> contain content.
      * This function will, in other words, say whether or not the specified row and column are
