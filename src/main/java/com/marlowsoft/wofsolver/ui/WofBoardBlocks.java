@@ -16,8 +16,17 @@ public class WofBoardBlocks {
 
     /**
      * Initializes the collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
+     * All blocks will <i>not</i> be suggested blocks.
      */
     public WofBoardBlocks() {
+        this(false);
+    }
+
+    /**
+     * Initializes the collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
+     * @param suggestedBlocks Whether or not all the constructed blocks are "suggested" blocks.
+     */
+    public WofBoardBlocks(final boolean suggestedBlocks) {
         // construct the boardBlock rows/columns
         final ImmutableList.Builder<ImmutableList<WofBoardBlock>> boardBlockBuilder =
                 ImmutableList.builder();
@@ -26,7 +35,8 @@ public class WofBoardBlocks {
             final ImmutableList.Builder<WofBoardBlock> columnBlocks = ImmutableList.builder();
             for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
                 if(isContentBlock(curRow, curColumn)) {
-                    columnBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.NO_GLYPH));
+                    columnBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.NO_GLYPH,
+                            suggestedBlocks));
                 } else {
                     columnBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.NO_CONTENT));
                 }
@@ -88,11 +98,6 @@ public class WofBoardBlocks {
      * <tt>false</tt> otherwise.
      */
     private boolean isContentBlock(final int row, final int column) {
-        // is this out of bounds?
-        if(row < 0 || column < 0 || row > ROW_COUNT || column > COLUMN_COUNT) {
-            return false;
-        }
-
         // is this a block that's NOT one of the corner bocks?
         return !((row == 0 && column == 0) ||
                  (row == 0 && column == COLUMN_COUNT - 1) ||

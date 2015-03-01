@@ -22,6 +22,7 @@ public class WofBoard extends JDialog {
     private JButton buttonResetBoard;
 
     private final WofBoardBlocks boardBlocks;
+    private final WofBoardBlocks suggestedBoardBlocks;
     private final WordSearch wordSearch;
     private final ImmutableMap<Character, LetterLabel> letterLabels;
 
@@ -40,9 +41,11 @@ public class WofBoard extends JDialog {
         setLocationRelativeTo(null);
 
         boardBlocks = new WofBoardBlocks();
-        wordSearch = injector.getInstance(WordSearch.class);
-
         boardBlocks.addBlocksToPanel(gameBoardPane);
+        suggestedBoardBlocks = new WofBoardBlocks(true);
+        suggestedBoardBlocks.addBlocksToPanel(suggestedSolutionPane);
+
+        wordSearch = injector.getInstance(WordSearch.class);
 
         // construct the panel with the used letters
         final ImmutableMap.Builder<Character, LetterLabel> letterLabelsBuilder =

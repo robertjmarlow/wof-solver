@@ -31,10 +31,19 @@ public class WofBoardBlock extends JTextField {
     private BlockType blockType;
 
     /**
-     *
+     * Create a new block that is <i>not</i> a suggested block.
      * @param blockType The type of block.
      */
     public WofBoardBlock(final BlockType blockType) {
+        this(blockType, false);
+    }
+
+    /**
+     *
+     * @param blockType The type of block.
+     * @param suggestedBlock Whether or not the block is a suggested block.
+     */
+    public WofBoardBlock(final BlockType blockType, final boolean suggestedBlock) {
         setBlockType(blockType);
 
         setFont(blockFont);
@@ -43,7 +52,9 @@ public class WofBoardBlock extends JTextField {
 
         setHorizontalAlignment(SwingConstants.CENTER);
 
-        addMouseListener(new BoardBlockEventListener(this));
+        if(!suggestedBlock) {
+            addMouseListener(new BoardBlockEventListener(this));
+        }
     }
 
     /**
