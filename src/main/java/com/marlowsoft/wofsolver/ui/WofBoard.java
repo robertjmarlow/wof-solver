@@ -6,6 +6,7 @@ import com.marlowsoft.wofsolver.dictionary.WordSearch;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Main dialog of the application.
@@ -63,5 +64,41 @@ public class WofBoard extends JDialog {
             letterLabelsBuilder.put(curChar, letterLabel);
         }
         letterLabels = letterLabelsBuilder.build();
+
+        buttonResetBoard.addActionListener(
+                new ResetBoardActionListener(boardBlocks, suggestedBoardBlocks));
+    }
+
+    /**
+     * Listener for clicking on the "Reset Board" button.
+     */
+    private static class ResetBoardActionListener implements ActionListener {
+        private final WofBoardBlocks boardBlocks;
+        private final WofBoardBlocks suggestedBoardBlocks;
+
+        /**
+         *
+         * @param boardBlocks The play field.
+         * @param suggestedBoardBlocks The "suggested" play field.
+         */
+        public ResetBoardActionListener(final WofBoardBlocks boardBlocks,
+                                        final WofBoardBlocks suggestedBoardBlocks) {
+            this.boardBlocks = boardBlocks;
+            this.suggestedBoardBlocks = suggestedBoardBlocks;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            if(JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to reset the game board?", "Reset Board?",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) ==
+                    JOptionPane.YES_OPTION) {
+                boardBlocks.resetBlocks();
+                suggestedBoardBlocks.resetBlocks();
+            }
+        }
     }
 }

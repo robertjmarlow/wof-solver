@@ -88,6 +88,25 @@ public class WofBoardBlocks {
     }
 
     /**
+     * For every block that is <i>not</i> a no-content type:
+     * <ol>
+     *     <li>Set its type to no-glyph type.</li>
+     *     <li>Set its text to an empty string.</li>
+     * </ol>
+     */
+    public void resetBlocks() {
+        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
+            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
+                if(isContentBlock(curRow, curColumn)) {
+                    final WofBoardBlock wofBoardBlock = getBlock(curRow, curColumn);
+                    wofBoardBlock.setText("");
+                    wofBoardBlock.setBlockType(WofBoardBlock.BlockType.NO_GLYPH);
+                }
+            }
+        }
+    }
+
+    /**
      * Determines whether or not the specified row and column can contain content.
      * The four blocks in the corners of the board <i>cannot</i> contain content.
      * This function will, in other words, say whether or not the specified row and column are

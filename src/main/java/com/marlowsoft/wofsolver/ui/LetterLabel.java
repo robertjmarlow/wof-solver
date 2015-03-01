@@ -10,8 +10,8 @@ public class LetterLabel extends JLabel {
     private final char letter;
     private boolean hasBeenUsed;
 
-    private static final Color usedLetterColor = new Color(255, 255, 255, 10);
-    private static final Color unusedLetterColor = new Color(255, 255, 255, 50);
+    private static final Color usedLetterColor = new Color(20, 20, 20, 40);
+    private static final Color unusedLetterColor = new Color(20, 20, 20);
     private static final float FONT_SIZE = 18;
 
     /**

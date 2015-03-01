@@ -15,8 +15,7 @@ public class Main {
      * @param args Arguments to the application.
      */
     public static void main(final String[] args) {
-        Injector injector = Guice.createInjector(new WofModule());
-        final WofBoard wofBoard = new WofBoard(injector);
+        final WofBoard wofBoard = new WofBoard(Guice.createInjector(new WofModule()));
         wofBoard.pack();
         wofBoard.setVisible(true);
         System.exit(0);
