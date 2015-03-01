@@ -6,8 +6,8 @@
       <xy x="48" y="54" width="777" height="421"/>
     </constraints>
     <properties>
-      <background color="-16777216"/>
-      <foreground color="-13996033"/>
+      <background color="-1447447"/>
+      <foreground color="-16777216"/>
     </properties>
     <border type="none">
       <font/>
@@ -19,13 +19,13 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-16777216"/>
+          <background color="-1447447"/>
           <foreground color="-16777216"/>
         </properties>
         <border type="line" title="Used Letters" title-justification="2" title-position="2">
           <font/>
-          <title-color color="-4473925"/>
-          <color color="-4473925"/>
+          <title-color color="-16777216"/>
+          <color color="-16777216"/>
         </border>
         <children/>
       </grid>
@@ -34,13 +34,14 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-16777216"/>
+          <background color="-1447447"/>
+          <enabled value="true"/>
           <foreground color="-16777216"/>
         </properties>
         <border type="line" title="Game Board" title-justification="2" title-position="2">
           <font/>
-          <title-color color="-4473925"/>
-          <color color="-4473925"/>
+          <title-color color="-16777216"/>
+          <color color="-16777216"/>
         </border>
         <children/>
       </grid>
@@ -49,13 +50,14 @@
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-16777216"/>
+          <background color="-1447447"/>
+          <enabled value="true"/>
           <foreground color="-16777216"/>
         </properties>
         <border type="line" title="Suggested Solution" title-justification="2" title-position="2">
           <font/>
-          <title-color color="-4473925"/>
-          <color color="-4473925"/>
+          <title-color color="-16777216"/>
+          <color color="-16777216"/>
         </border>
         <children/>
       </grid>
@@ -63,7 +65,10 @@
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1447447"/>
+          <foreground color="-16777216"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="94c07" class="javax.swing.JButton" binding="buttonResetBoard">
