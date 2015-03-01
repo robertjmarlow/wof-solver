@@ -3,7 +3,6 @@ package com.marlowsoft.wofsolver.dictionary;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.inject.Inject;
-import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
 
 import java.util.regex.Pattern;
 

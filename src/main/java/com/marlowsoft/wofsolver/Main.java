@@ -1,7 +1,6 @@
 package com.marlowsoft.wofsolver;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.bind.WofModule;
 import com.marlowsoft.wofsolver.ui.WofBoard;
 
