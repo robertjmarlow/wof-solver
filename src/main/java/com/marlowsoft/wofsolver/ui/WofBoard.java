@@ -121,6 +121,7 @@ public class WofBoard extends JDialog {
         public void actionPerformed(final ActionEvent event) {
             wofBoard.buttonStart.setEnabled(false);
             wofBoard.boardBlocks.lockBlocks();
+            wofBoard.suggestedBoardBlocks.copyLayout(wofBoard.boardBlocks);
         }
     }
 }

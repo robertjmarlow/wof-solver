@@ -133,6 +133,21 @@ public class WofBoardBlocks {
     }
 
     /**
+     * Copies the block types from the specified {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks}
+     * to <code>this</code> one.
+     * @param wofBoardBlocks The source of the block types to copy from.
+     */
+    public void copyLayout(final WofBoardBlocks wofBoardBlocks) {
+        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
+            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
+                getBlock(curRow, curColumn).setBlockType(
+                        wofBoardBlocks.getBlock(curRow, curColumn).getBlockType()
+                );
+            }
+        }
+    }
+
+    /**
      * Determines whether or not the specified row and column can contain content.
      * The four blocks in the corners of the board <i>cannot</i> contain content.
      * This function will, in other words, say whether or not the specified row and column are

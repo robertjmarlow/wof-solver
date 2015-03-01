@@ -58,6 +58,8 @@ public class WofBoardBlock extends JTextField {
 
         if(!suggestedBlock) {
             addMouseListener(new BoardBlockEventListener(this));
+        } else {
+            setEnabled(false);
         }
     }
 

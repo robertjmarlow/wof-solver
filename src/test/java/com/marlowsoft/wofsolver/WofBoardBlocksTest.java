@@ -104,4 +104,19 @@ public class WofBoardBlocksTest {
         Assert.assertEquals(WofBoardBlock.BlockType.GLYPH,
                 boardBlocks.getBlock(1, 4).getBlockType());
     }
+
+    /**
+     * Verifies that block types will get copied from one instance of
+     * {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks} to another.
+     */
+    @Test
+    public void testCopyLayout() {
+        final WofBoardBlocks sourceBoardBlocks = new WofBoardBlocks();
+        final WofBoardBlocks destBoardBlocks = new WofBoardBlocks();
+
+        sourceBoardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.GLYPH);
+        destBoardBlocks.copyLayout(sourceBoardBlocks);
+        Assert.assertEquals(WofBoardBlock.BlockType.GLYPH,
+                destBoardBlocks.getBlock(1, 4).getBlockType());
+    }
 }
