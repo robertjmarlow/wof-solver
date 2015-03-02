@@ -48,6 +48,8 @@ public class WofBoard extends JDialog {
 
         wordSearch = injector.getInstance(WordSearch.class);
 
+        boardBlocks.setBlocksEditable(false);
+
         // construct the panel with the used letters
         final ImmutableMap.Builder<Character, LetterLabel> letterLabelsBuilder =
                 ImmutableMap.builder();
@@ -96,6 +98,7 @@ public class WofBoard extends JDialog {
                 wofBoard.boardBlocks.resetBlocks();
                 wofBoard.suggestedBoardBlocks.resetBlocks();
                 wofBoard.buttonStart.setEnabled(true);
+                wofBoard.boardBlocks.setBlocksEditable(false);
             }
         }
     }
@@ -122,6 +125,7 @@ public class WofBoard extends JDialog {
             wofBoard.buttonStart.setEnabled(false);
             wofBoard.boardBlocks.lockBlocks();
             wofBoard.suggestedBoardBlocks.copyLayout(wofBoard.boardBlocks);
+            wofBoard.boardBlocks.setBlocksEditable(true);
         }
     }
 }

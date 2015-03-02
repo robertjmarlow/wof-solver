@@ -56,6 +56,8 @@ public class WofBoardBlock extends JTextField {
 
         setHorizontalAlignment(SwingConstants.CENTER);
 
+        setEditable(false);
+
         if(!suggestedBlock) {
             addMouseListener(new BoardBlockEventListener(this));
         } else {
@@ -64,7 +66,7 @@ public class WofBoardBlock extends JTextField {
     }
 
     /**
-     * Set the block type.
+     * Set the block type, unless the block is locked.
      * @param blockType The block type to set.
      */
     public void setBlockType(final BlockType blockType) {
@@ -78,17 +80,14 @@ public class WofBoardBlock extends JTextField {
             case GLYPH:
                 setBackground(GLYPH_BG_COLOR);
                 setDocument(new BoardBlockFieldLimit());
-                setEditable(true);
                 break;
             case NO_GLYPH:
                 setBackground(NO_GLYPH_BG_COLOR);
                 setDocument(new BoardBlockFieldLimit());
-                setEditable(false);
                 setText("");
                 break;
             case NO_CONTENT:
                 setBackground(NO_CONTENT_BG_COLOR);
-                setEditable(false);
                 setText("");
                 break;
         }

@@ -4,11 +4,12 @@ import com.google.common.collect.ImmutableList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 
 /**
  * This class contains a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
  */
-public class WofBoardBlocks {
+public class WofBoardBlocks implements Iterable<WofBoardBlock> {
     public static final int COLUMN_COUNT = 14;
     public static final int ROW_COUNT = 4;
 
@@ -110,12 +111,8 @@ public class WofBoardBlocks {
      * Disallow the changing of the type of block to all blocks that are <i>not</i> no-content type.
      */
     public void lockBlocks() {
-        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
-            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
-                if(isContentBlock(curRow, curColumn)) {
-                    getBlock(curRow, curColumn).lockBlock();
-                }
-            }
+        for(final WofBoardBlock wofBoardBlock : this) {
+            wofBoardBlock.lockBlock();
         }
     }
 
@@ -123,12 +120,19 @@ public class WofBoardBlocks {
      * Allow the changing of the type of block to all blocks that are <i>not</i> no-content type.
      */
     public void unlockBlocks() {
-        for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
-            for(int curColumn = 0; curColumn < COLUMN_COUNT; curColumn++) {
-                if(isContentBlock(curRow, curColumn)) {
-                    getBlock(curRow, curColumn).unlockBlock();
-                }
-            }
+        for(final WofBoardBlock wofBoardBlock : this) {
+            wofBoardBlock.unlockBlock();
+        }
+    }
+
+    /**
+     * Set the editable property for all blocks.
+     * @param editable <code>true</code> to make the blocks editable.
+     *                 <code>false</code> to make the blocks un-editable.
+     */
+    public void setBlocksEditable(final boolean editable) {
+        for(final WofBoardBlock wofBoardBlock : this) {
+            wofBoardBlock.setEditable(editable);
         }
     }
 
@@ -145,6 +149,14 @@ public class WofBoardBlocks {
                 );
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<WofBoardBlock> iterator() {
+        return new WofBoardBlockIterator(this);
     }
 
     /**
