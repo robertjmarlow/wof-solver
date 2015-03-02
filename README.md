@@ -6,4 +6,4 @@ wof-solver uses [Maven](http://maven.apache.org/) for its build lifecycle. Downl
 
 Download and install a JDK [from Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html). The latest version is recommended, but anything above 1.5 should work fine.
 
-Clone the repo onto a local drive. From the project directory, run `mvn clean package`. If everything goes well, there should be a directory created at `./target/appassembler/bin`. Navigate to here and run `wof-solver.bat` or `wof-solver`, depending on your operating system (Windows or Unix families, respectively).
+Clone this repo onto a local drive. From the project directory, run `mvn clean package`. If everything goes well, there should be a directory created at `./target/appassembler/bin`. Navigate to here and run `wof-solver.bat` or `wof-solver`, depending on your operating system (Windows or Unix families, respectively).
