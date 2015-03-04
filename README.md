@@ -1,5 +1,5 @@
 # wof-solver
-Java swing project that will help to solve puzzles on "Wheel of Fortune"
+Java swing project that will help to solve puzzles on [_Wheel of Fortune_](http://en.wikipedia.org/wiki/Wheel_of_Fortune_%28U.S._game_show%29).
 
 # Building
 wof-solver uses [Maven](http://maven.apache.org/) for its build lifecycle. Download and install the [latest version of Maven](http://maven.apache.org/download.cgi).
