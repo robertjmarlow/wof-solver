@@ -1,5 +1,6 @@
 package com.marlowsoft.wofsolver;
 
+import com.google.common.collect.*;
 import com.marlowsoft.wofsolver.ui.WofBoardBlock;
 import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
 import org.junit.Assert;
@@ -118,5 +119,57 @@ public class WofBoardBlocksTest {
         destBoardBlocks.copyLayout(sourceBoardBlocks);
         Assert.assertEquals(WofBoardBlock.BlockType.GLYPH,
                 destBoardBlocks.getBlock(1, 4).getBlockType());
+    }
+
+    /**
+     * Verifies that all blocks in this collection can be set to editable/not editable.
+     */
+    @Test
+    public void testSetBlocksEditable() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+
+        boardBlocks.setBlocksEditable(true);
+        Assert.assertTrue(boardBlocks.getBlock(1, 4).isEditable());
+
+        boardBlocks.setBlocksEditable(false);
+        Assert.assertFalse(boardBlocks.getBlock(1, 4).isEditable());
+    }
+
+    /**
+     * Verifies that blocks of a specified type in this collection can be set to editable/not editable.
+     */
+    @Test
+    public void testSetBlocksEditableOfType() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+        boardBlocks.getBlock(1, 4).setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlocks.setBlocksEditable(true, WofBoardBlock.BlockType.GLYPH);
+        Assert.assertTrue(boardBlocks.getBlock(1, 4).isEditable());
+        Assert.assertFalse(boardBlocks.getBlock(1, 5).isEditable());
+
+        boardBlocks.setBlocksEditable(false, WofBoardBlock.BlockType.GLYPH);
+        Assert.assertFalse(boardBlocks.getBlock(1, 4).isEditable());
+        Assert.assertFalse(boardBlocks.getBlock(1, 5).isEditable());
+    }
+
+    /**
+     * Verifies that the function to get used characters on the board functions correctly.
+     */
+    @Test
+    public void testGetUsedCharsOnBoard() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+        ImmutableSet<Character> usedChars;
+
+        boardBlocks.getBlock(1, 4).setText("P");
+        boardBlocks.getBlock(1, 5).setText("U");
+        boardBlocks.getBlock(1, 6).setText("G");
+        boardBlocks.getBlock(2, 6).setText("G");
+
+        usedChars = boardBlocks.getUsedCharsOnBoard();
+
+        Assert.assertTrue(usedChars.contains('P'));
+        Assert.assertTrue(usedChars.contains('U'));
+        Assert.assertTrue(usedChars.contains('G'));
+        Assert.assertFalse(usedChars.contains('S'));
     }
 }

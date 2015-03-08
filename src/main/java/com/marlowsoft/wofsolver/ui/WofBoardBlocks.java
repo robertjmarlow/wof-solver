@@ -1,6 +1,6 @@
 package com.marlowsoft.wofsolver.ui;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -137,6 +137,20 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
     }
 
     /**
+     * Set the editable property for all blocks of the specified type.
+     * @param editable  <code>true</code> to make the blocks editable.
+     *                  <code>false</code> to make the blocks un-editable.
+     * @param blockType Tye type of block to set the <code>editable</code> property for.
+     */
+    public void setBlocksEditable(final boolean editable, final WofBoardBlock.BlockType blockType) {
+        for(final WofBoardBlock wofBoardBlock : this) {
+            if(wofBoardBlock.getBlockType() == blockType) {
+                wofBoardBlock.setEditable(editable);
+            }
+        }
+    }
+
+    /**
      * Copies the block types from the specified {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks}
      * to <code>this</code> one.
      * @param wofBoardBlocks The source of the block types to copy from.
@@ -149,6 +163,23 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
                 );
             }
         }
+    }
+
+    /**
+     * Get all used characters in this collection of
+     * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
+     * @return All used characters in this collection.
+     */
+    public ImmutableSet<Character> getUsedCharsOnBoard() {
+        final ImmutableSet.Builder<Character> usedCharsBuilder = ImmutableSet.builder();
+        for(final WofBoardBlock wofBoardBlock : this) {
+            final String wofBoardText = wofBoardBlock.getText();
+            if(!wofBoardText.isEmpty()) {
+                usedCharsBuilder.add(wofBoardText.charAt(0));
+            }
+        }
+
+        return usedCharsBuilder.build();
     }
 
     /**

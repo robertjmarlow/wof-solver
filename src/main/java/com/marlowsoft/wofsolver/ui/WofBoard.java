@@ -1,8 +1,9 @@
 package com.marlowsoft.wofsolver.ui;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.*;
 import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
+import com.marlowsoft.wofsolver.ui.event.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.event.*;
  * Displays a collection of {@link WofBoardBlocks}
  * and allows for user input.
  */
-public class WofBoard extends JDialog {
+public class WofBoard extends JDialog implements BlockValueChangedListener {
     private JPanel contentPane;
     private JPanel gameBoardPane;
     private JPanel usedLettersPane;
@@ -26,6 +27,8 @@ public class WofBoard extends JDialog {
     private final WofBoardBlocks suggestedBoardBlocks;
     private final WordSearch wordSearch;
     private final ImmutableMap<Character, LetterLabel> letterLabels;
+
+    // TODO would a "tutorial" mode be nice for the user?
 
     /**
      * Initializes all elements in the board.
@@ -69,6 +72,20 @@ public class WofBoard extends JDialog {
 
         buttonStart.addActionListener(new StartGameActionListener(this));
         buttonResetBoard.addActionListener(new ResetBoardActionListener(this));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onValueChanged() {
+        final ImmutableSet<Character> usedCharsOnBoard = boardBlocks.getUsedCharsOnBoard();
+        for(final Character usedChar : usedCharsOnBoard) {
+            final LetterLabel letterLabel = letterLabels.get(usedChar);
+            if(letterLabel != null) {
+                // TODO update the letter labels here
+            }
+        }
     }
 
     /**
@@ -125,7 +142,7 @@ public class WofBoard extends JDialog {
             wofBoard.buttonStart.setEnabled(false);
             wofBoard.boardBlocks.lockBlocks();
             wofBoard.suggestedBoardBlocks.copyLayout(wofBoard.boardBlocks);
-            wofBoard.boardBlocks.setBlocksEditable(true);
+            wofBoard.boardBlocks.setBlocksEditable(true, WofBoardBlock.BlockType.GLYPH);
         }
     }
 }

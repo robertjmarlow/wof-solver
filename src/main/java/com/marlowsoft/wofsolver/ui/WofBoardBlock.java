@@ -1,9 +1,10 @@
 package com.marlowsoft.wofsolver.ui;
 
+import com.marlowsoft.wofsolver.ui.event.*;
+
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+import javax.swing.event.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.regex.Pattern;
@@ -20,6 +21,8 @@ public class WofBoardBlock extends JTextField {
     private static final Font blockFont = new Font(Font.SERIF, Font.BOLD, FONT_SIZE);
 
     private boolean isLocked;
+
+    // TODO make the border bigger; the real board blocks have big, chunky borders
 
     /**
      * Defines all possible block types.
@@ -47,21 +50,14 @@ public class WofBoardBlock extends JTextField {
      */
     public WofBoardBlock(final BlockType blockType, final boolean suggestedBlock) {
         setBlockType(blockType);
-
         isLocked = false;
-
         setFont(blockFont);
-
         setColumns(1);
-
         setHorizontalAlignment(SwingConstants.CENTER);
-
         setEditable(false);
 
         if(!suggestedBlock) {
             addMouseListener(new BoardBlockEventListener(this));
-        } else {
-            setEnabled(false);
         }
     }
 
@@ -80,6 +76,7 @@ public class WofBoardBlock extends JTextField {
             case GLYPH:
                 setBackground(GLYPH_BG_COLOR);
                 setDocument(new BoardBlockFieldLimit());
+                getDocument().addDocumentListener(new BoardBlockDocumentListener());
                 break;
             case NO_GLYPH:
                 setBackground(NO_GLYPH_BG_COLOR);
@@ -213,6 +210,35 @@ public class WofBoardBlock extends JTextField {
          */
         @Override
         public void mouseExited(MouseEvent event) {
+        }
+    }
+
+    /**
+     * Handler for any {@link javax.swing.event.DocumentEvent} for this
+     * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
+     */
+    private static class BoardBlockDocumentListener implements DocumentListener {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void insertUpdate(final DocumentEvent documentEvent) {
+            BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void removeUpdate(final DocumentEvent documentEvent) {
+            BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void changedUpdate(final DocumentEvent documentEvent) {
         }
     }
 }
