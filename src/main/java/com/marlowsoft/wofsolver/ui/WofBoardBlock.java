@@ -57,7 +57,7 @@ public class WofBoardBlock extends JTextField {
         setEditable(false);
 
         if(!suggestedBlock) {
-            addMouseListener(new BoardBlockEventListener(this));
+            addMouseListener(new BoardBlockEventListener());
         }
     }
 
@@ -142,18 +142,7 @@ public class WofBoardBlock extends JTextField {
     /**
      * Handler for events for a {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
      */
-    private static class BoardBlockEventListener implements MouseListener {
-        final WofBoardBlock boardBlock;
-
-        /**
-         *
-         * @param boardBlock The {@link com.marlowsoft.wofsolver.ui.WofBoardBlock} that this
-         *                   listener will be listening to.
-         */
-        public BoardBlockEventListener(final WofBoardBlock boardBlock) {
-            this.boardBlock = boardBlock;
-        }
-
+    private class BoardBlockEventListener implements MouseListener {
         /**
          * If the right-mouse button is clicked, switch glyph block to a no-glyph block and
          * vice-versa.
@@ -161,12 +150,12 @@ public class WofBoardBlock extends JTextField {
          */
         private void toggleBlockType(final MouseEvent event) {
             if(SwingUtilities.isRightMouseButton(event)) {
-                switch(boardBlock.getBlockType()) {
+                switch(getBlockType()) {
                     case GLYPH:
-                        boardBlock.setBlockType(BlockType.NO_GLYPH);
+                        setBlockType(BlockType.NO_GLYPH);
                         break;
                     case NO_GLYPH:
-                        boardBlock.setBlockType(BlockType.GLYPH);
+                        setBlockType(BlockType.GLYPH);
                         break;
                     default:
                         break;
@@ -180,7 +169,7 @@ public class WofBoardBlock extends JTextField {
         @Override
         public void mousePressed(MouseEvent event) {
             toggleBlockType(event);
-            boardBlock.grabFocus();
+            grabFocus();
         }
 
         /**
