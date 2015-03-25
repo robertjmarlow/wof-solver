@@ -14,9 +14,7 @@ import java.awt.*;
  * Tests the {@link com.marlowsoft.wofsolver.ui.WofBoard} class.
  */
 public class WofBoardTest {
-    // TODO can a robot help out with testing this UI stuff?
-    // http://docs.oracle.com/javase/7/docs/api/java/awt/Robot.html
-    public static Injector injector;
+    private static Injector injector;
 
     @BeforeClass
     public static void beforeClass() {
