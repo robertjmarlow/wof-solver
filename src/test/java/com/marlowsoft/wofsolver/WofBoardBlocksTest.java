@@ -158,7 +158,7 @@ public class WofBoardBlocksTest {
     @Test
     public void testGetUsedCharsOnBoard() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();
-        ImmutableSet<Character> usedChars;
+        final ImmutableSet<Character> usedChars;
 
         boardBlocks.getBlock(1, 4).setText("P");
         boardBlocks.getBlock(1, 5).setText("U");
@@ -171,5 +171,28 @@ public class WofBoardBlocksTest {
         Assert.assertTrue(usedChars.contains('U'));
         Assert.assertTrue(usedChars.contains('G'));
         Assert.assertFalse(usedChars.contains('S'));
+    }
+
+    /**
+     * Verifies that the function to get unused characters on the board functions correctly.
+     */
+    @Test
+    public void testGetUnusedCharsOnBoard() {
+        final WofBoardBlocks boardBlocks = new WofBoardBlocks();
+        final ImmutableSet<Character> unusedChars;
+
+        boardBlocks.getBlock(1, 4).setText("P");
+        boardBlocks.getBlock(1, 5).setText("U");
+        boardBlocks.getBlock(1, 6).setText("G");
+        boardBlocks.getBlock(2, 6).setText("G");
+
+        unusedChars = boardBlocks.getUnusedCharsOnBoard();
+
+        Assert.assertFalse(unusedChars.contains('P'));
+        Assert.assertFalse(unusedChars.contains('U'));
+        Assert.assertFalse(unusedChars.contains('G'));
+        Assert.assertTrue(unusedChars.contains('S'));
+        Assert.assertTrue(unusedChars.contains('A'));
+        Assert.assertTrue(unusedChars.contains('Z'));
     }
 }

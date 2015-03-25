@@ -183,6 +183,23 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
     }
 
     /**
+     * Get all unused characters in this collection of
+     * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
+     * @return All unused characters (in the range A - Z) in this collection.
+     */
+    public ImmutableSet<Character> getUnusedCharsOnBoard() {
+        final ImmutableSet.Builder<Character> unusedCharsBuilder = ImmutableSet.builder();
+        final ImmutableSet<Character> usedChars = getUsedCharsOnBoard();
+        for(char curChar = 'A'; curChar <= 'Z'; curChar++) {
+            if(!usedChars.contains(curChar)) {
+                unusedCharsBuilder.add(curChar);
+            }
+        }
+
+        return unusedCharsBuilder.build();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

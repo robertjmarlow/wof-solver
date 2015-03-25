@@ -8,6 +8,7 @@ import com.marlowsoft.wofsolver.ui.event.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 /**
  * Main dialog of the application.
@@ -65,6 +66,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
         for(char curChar = 'A'; curChar <= 'Z'; curChar++) {
             constraints.gridx = curChar - 'A';
             final LetterLabel letterLabel = new LetterLabel(curChar);
+            letterLabel.setEnabled(false);
             usedLettersPane.add(letterLabel, constraints);
             letterLabelsBuilder.put(curChar, letterLabel);
         }
@@ -79,11 +81,17 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      */
     @Override
     public void onValueChanged() {
-        final ImmutableSet<Character> usedCharsOnBoard = boardBlocks.getUsedCharsOnBoard();
-        for(final Character usedChar : usedCharsOnBoard) {
+        for(final Character usedChar : boardBlocks.getUsedCharsOnBoard()) {
             final LetterLabel letterLabel = letterLabels.get(usedChar);
             if(letterLabel != null) {
-                // TODO update the letter labels here
+                letterLabel.setGuessType(LetterLabel.GuessType.CORRECT);
+            }
+        }
+
+        for(final Character unusedChar : boardBlocks.getUnusedCharsOnBoard()) {
+            final LetterLabel letterLabel = letterLabels.get(unusedChar);
+            if(letterLabel != null) {
+                letterLabel.setGuessType(LetterLabel.GuessType.NONE);
             }
         }
     }
@@ -106,6 +114,10 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
                 suggestedBoardBlocks.resetBlocks();
                 buttonStart.setEnabled(true);
                 boardBlocks.setBlocksEditable(false);
+                for(final Map.Entry<Character, LetterLabel> letterLabelEntry :
+                        letterLabels.entrySet()) {
+                    letterLabelEntry.getValue().setEnabled(false);
+                }
             }
         }
     }
@@ -123,6 +135,10 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
             boardBlocks.lockBlocks();
             suggestedBoardBlocks.copyLayout(boardBlocks);
             boardBlocks.setBlocksEditable(true, WofBoardBlock.BlockType.GLYPH);
+            for(final Map.Entry<Character, LetterLabel> letterLabelEntry :
+                    letterLabels.entrySet()) {
+                letterLabelEntry.getValue().setEnabled(true);
+            }
         }
     }
 }
