@@ -7,31 +7,12 @@ import org.junit.*;
  * Tests the {@link com.marlowsoft.wofsolver.BlockValueChangedDispatcherTest} class.
  */
 public class BlockValueChangedDispatcherTest {
-    private class OnBlockChangedListener implements BlockValueChangedListener {
-        int onValueChangedCount;
-
-        public OnBlockChangedListener() {
-            onValueChangedCount = 0;
-        }
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onValueChanged() {
-            onValueChangedCount++;
-        }
-
-        public int getValueChangedCount() {
-            return onValueChangedCount;
-        }
-    }
-
     /**
      * Tests proper dispatching of block value events when the character in the block is changed.
      */
     @Test
     public void testOnBlockCharChanged() {
-        final OnBlockChangedListener listener = new OnBlockChangedListener();
+        final BlockChangedListenerTestImpl listener = new BlockChangedListenerTestImpl();
         BlockValueChangedDispatcher.addListener(listener);
 
         BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
