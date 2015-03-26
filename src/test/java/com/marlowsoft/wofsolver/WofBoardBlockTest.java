@@ -20,7 +20,7 @@ public class WofBoardBlockTest {
     @BeforeClass
     public static void setUpClass() throws AWTException {
         robot = new Robot();
-        robot.setAutoDelay(100);
+        robot.setAutoDelay(50);
         robot.setAutoWaitForIdle(true);
     }
 

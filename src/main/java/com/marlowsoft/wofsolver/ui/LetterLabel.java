@@ -10,7 +10,6 @@ import java.awt.event.*;
 public class LetterLabel extends JLabel {
     private static final Color unusedLetterColor = new Color(20, 20, 20);
     private static final float FONT_SIZE = 18;
-    private final GuessAction guessAction;
     private final JMenuItem guessMenuItem;
     private static final String LETTER_GUESSED_CORRECTLY = "Letter was guessed correctly";
     private static final String MARK_AS_INCORRECT = "Mark as incorrect guess";
@@ -37,9 +36,8 @@ public class LetterLabel extends JLabel {
         setForeground(unusedLetterColor);
         setText(Character.toString(letter));
         setFont(getFont().deriveFont(FONT_SIZE));
-        guessAction = new GuessAction();
         final JPopupMenu popupMenu = new JPopupMenu();
-        guessMenuItem = new JMenuItem(guessAction);
+        guessMenuItem = new JMenuItem(new GuessAction());
         popupMenu.add(guessMenuItem);
         setComponentPopupMenu(popupMenu);
     }
@@ -110,8 +108,6 @@ public class LetterLabel extends JLabel {
                     break;
                 case INCORRECT:
                     setGuessType(GuessType.NONE);
-                    break;
-                case CORRECT:
                     break;
             }
         }
