@@ -17,7 +17,7 @@ public class BlockChangedListenerTestImpl implements BlockValueChangedListener {
      * {@inheritDoc}
      */
     @Override
-    public void onValueChanged() {
+    public void onBlockValueChanged() {
         onValueChangedCount++;
     }
 

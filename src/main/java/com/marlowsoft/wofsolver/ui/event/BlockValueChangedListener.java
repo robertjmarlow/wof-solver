@@ -8,5 +8,5 @@ public interface BlockValueChangedListener {
     /**
      * Fired when a character is added to or removed from a block.
      */
-    void onValueChanged();
+    void onBlockValueChanged();
 }

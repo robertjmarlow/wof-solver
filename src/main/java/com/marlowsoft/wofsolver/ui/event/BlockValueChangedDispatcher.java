@@ -23,7 +23,7 @@ public abstract class BlockValueChangedDispatcher {
      */
     public static void dispatchOnBlockCharChanged() {
         for(final BlockValueChangedListener listener : listeners) {
-            listener.onValueChanged();
+            listener.onBlockValueChanged();
         }
     }
 }

@@ -80,7 +80,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      * {@inheritDoc}
      */
     @Override
-    public void onValueChanged() {
+    public void onBlockValueChanged() {
         for(final Character usedChar : boardBlocks.getUsedCharsOnBoard()) {
             final LetterLabel letterLabel = letterLabels.get(usedChar);
             if(letterLabel != null) {
