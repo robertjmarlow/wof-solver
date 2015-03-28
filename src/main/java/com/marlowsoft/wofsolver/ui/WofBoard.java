@@ -82,17 +82,11 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     @Override
     public void onBlockValueChanged() {
         for(final Character usedChar : boardBlocks.getUsedCharsOnBoard()) {
-            final LetterLabel letterLabel = letterLabels.get(usedChar);
-            if(letterLabel != null) {
-                letterLabel.setGuessType(LetterLabel.GuessType.CORRECT);
-            }
+            letterLabels.get(usedChar).setGuessType(LetterLabel.GuessType.CORRECT);
         }
 
         for(final Character unusedChar : boardBlocks.getUnusedCharsOnBoard()) {
-            final LetterLabel letterLabel = letterLabels.get(unusedChar);
-            if(letterLabel != null) {
-                letterLabel.setGuessType(LetterLabel.GuessType.NONE);
-            }
+            letterLabels.get(unusedChar).setGuessType(LetterLabel.GuessType.NONE);
         }
     }
 
