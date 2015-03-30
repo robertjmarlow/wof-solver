@@ -98,6 +98,6 @@ public class WordSearch {
             stringBuilder.append(knownLetter != null ? knownLetter : '.');
         }
 
-        return Pattern.compile(stringBuilder.toString());
+        return Pattern.compile(stringBuilder.toString(), Pattern.CASE_INSENSITIVE);
     }
 }
