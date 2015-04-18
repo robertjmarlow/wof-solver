@@ -3,12 +3,15 @@ package com.marlowsoft.wofsolver.ui;
 import com.google.common.collect.*;
 import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
+import com.marlowsoft.wofsolver.dictionary.WordSearchQuery;
+import com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl;
 import com.marlowsoft.wofsolver.ui.event.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Main dialog of the application.
@@ -19,7 +22,6 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     private JPanel contentPane;
     private JPanel gameBoardPane;
     private JPanel usedLettersPane;
-    private JPanel controlPane;
     private JPanel suggestedSolutionPane;
     private JButton buttonStart;
     private JButton buttonResetBoard;
@@ -28,6 +30,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     private final WofBoardBlocks suggestedBoardBlocks;
     private final WordSearch wordSearch;
     private final ImmutableMap<Character, LetterLabel> letterLabels;
+    private ImmutableList<WofBoardWord> boardWords;
 
     // TODO would a "tutorial" mode be nice for the user?
 
@@ -51,6 +54,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
         suggestedBoardBlocks.addBlocksToPanel(suggestedSolutionPane);
 
         wordSearch = injector.getInstance(WordSearch.class);
+        boardWords = ImmutableList.of();
 
         boardBlocks.setBlocksEditable(false);
 
@@ -81,13 +85,97 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      */
     @Override
     public void onBlockValueChanged() {
+        // for any used characters on the board, mark them as correct
         for(final Character usedChar : boardBlocks.getUsedCharsOnBoard()) {
             letterLabels.get(usedChar).setGuessType(LetterLabel.GuessType.CORRECT);
         }
 
+        // for any unused characters that haven't been marked as incorrect, mark them as none
         for(final Character unusedChar : boardBlocks.getUnusedCharsOnBoard()) {
-            letterLabels.get(unusedChar).setGuessType(LetterLabel.GuessType.NONE);
+            final LetterLabel letterLabel = letterLabels.get(unusedChar);
+            if(letterLabel.getGuessType() != LetterLabel.GuessType.INCORRECT) {
+                letterLabel.setGuessType(LetterLabel.GuessType.NONE);
+            }
         }
+
+        // find suggestions for every word
+        for(final WofBoardWord boardWord : boardWords) {
+            final ImmutableList<String> wordSearchResults =
+                    getSuggestedWords(boardWord, 10);
+
+            System.out.println("Found " + wordSearchResults.size() + ":");
+            for(int wordIdx = 0; wordIdx < wordSearchResults.size(); wordIdx++) {
+                System.out.println(" [" + wordIdx + "] " + wordSearchResults.get(wordIdx));
+            }
+        }
+    }
+
+    /**
+     * Get suggested words based on the specified board word.
+     * @param wofBoardWord The board word to search with.
+     * @param suggestionLimit The maximum amount of words to return.
+     * @return Suggested words. This collection's maximum length will be
+     * the specified suggestion limit.
+     */
+    private ImmutableList<String> getSuggestedWords(final WofBoardWord wofBoardWord,
+                                                    final int suggestionLimit) {
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder =
+                new WordSearchQueryImpl.WordSearchQueryBuilder();
+
+        // set the length of the word
+        queryBuilder.setWordLength(wofBoardWord.getLength());
+
+        // set all known letters
+        for(final Map.Entry<Integer, Character> entry :
+                wofBoardWord.getKnownLetters().entrySet()) {
+            queryBuilder.addKnownLetter(entry.getKey(), entry.getValue());
+        }
+
+        // set all unused letters
+        for(final Character usedChar : boardBlocks.getUnusedCharsOnBoard()) {
+            queryBuilder.addUsedLetter(usedChar);
+        }
+
+        // let's find some words!
+        return wordSearch.getMatchedWords(queryBuilder.build(), suggestionLimit);
+    }
+
+    /**
+     * Create a collection of words on the board.
+     * @return A collection of words on the board.
+     */
+    private ImmutableList<WofBoardWord> getBoardWords() {
+        final ImmutableList.Builder<WofBoardWord> boardWordBuilder = ImmutableList.builder();
+
+        // go through all blocks on the board
+        for(int curRow = 0; curRow < WofBoardBlocks.ROW_COUNT; curRow++) {
+            boolean readingAWord = false;
+            List<WofBoardBlock> boardWord = Lists.newArrayList();
+            for(int curColumn = 0; curColumn < WofBoardBlocks.COLUMN_COUNT; curColumn++) {
+                final WofBoardBlock wofBoardBlock = boardBlocks.getBlock(curRow, curColumn);
+
+                // if the block is a glyph block, this is part of a word
+                if(wofBoardBlock.getBlockType() == WofBoardBlock.BlockType.GLYPH) {
+                    if(!readingAWord) {
+                        boardWord = Lists.newArrayList();
+                    }
+                    readingAWord = true;
+                    boardWord.add(wofBoardBlock);
+                }
+                // check if a word should to be added to the collection
+                // (i.e. if this is the end of a word)
+                // if this is a no glyph block OR if this is the last column of a row
+                else if(wofBoardBlock.getBlockType() == WofBoardBlock.BlockType.NO_GLYPH ||
+                        curColumn == WofBoardBlocks.COLUMN_COUNT - 1) {
+                    if(readingAWord) {
+                        boardWordBuilder.add(new WofBoardWord(boardWord));
+                    }
+                    readingAWord = false;
+                }
+            }
+        }
+
+        return boardWordBuilder.build();
     }
 
     /**
@@ -111,7 +199,9 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
                 for(final Map.Entry<Character, LetterLabel> letterLabelEntry :
                         letterLabels.entrySet()) {
                     letterLabelEntry.getValue().setEnabled(false);
+                    letterLabelEntry.getValue().setGuessType(LetterLabel.GuessType.NONE);
                 }
+                boardWords = ImmutableList.of();
             }
         }
     }
@@ -133,6 +223,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
                     letterLabels.entrySet()) {
                 letterLabelEntry.getValue().setEnabled(true);
             }
+            boardWords = getBoardWords();
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.marlowsoft.wofsolver.ui;
 
+import com.marlowsoft.wofsolver.ui.event.BlockValueChangedDispatcher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -110,6 +112,7 @@ public class LetterLabel extends JLabel {
                     setGuessType(GuessType.NONE);
                     break;
             }
+            BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
         }
     }
 }
