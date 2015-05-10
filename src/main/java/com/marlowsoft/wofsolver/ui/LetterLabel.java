@@ -69,7 +69,7 @@ public class LetterLabel extends JLabel {
                 guessMenuItem.setEnabled(true);
                 guessMenuItem.setText(UNMARK_AS_INCORRECT);
                 break;
-            case CORRECT:
+            default:
                 setForeground(Color.green);
                 guessMenuItem.setEnabled(false);
                 guessMenuItem.setText(LETTER_GUESSED_CORRECTLY);
@@ -110,6 +110,8 @@ public class LetterLabel extends JLabel {
                     break;
                 case INCORRECT:
                     setGuessType(GuessType.NONE);
+                    break;
+                default:
                     break;
             }
             BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
