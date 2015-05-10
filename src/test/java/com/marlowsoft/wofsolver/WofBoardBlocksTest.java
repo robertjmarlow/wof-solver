@@ -1,6 +1,5 @@
 package com.marlowsoft.wofsolver;
 
-import com.google.common.collect.*;
 import com.marlowsoft.wofsolver.ui.WofBoardBlock;
 import com.marlowsoft.wofsolver.ui.WofBoardBlocks;
 import org.junit.Assert;
@@ -8,6 +7,7 @@ import org.junit.Test;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 /**
  * Tests the {@link com.marlowsoft.wofsolver.ui.WofBoardBlocks} class.
@@ -158,7 +158,7 @@ public class WofBoardBlocksTest {
     @Test
     public void testGetUsedCharsOnBoard() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();
-        final ImmutableSet<Character> usedChars;
+        final Set<Character> usedChars;
 
         boardBlocks.getBlock(1, 4).setText("P");
         boardBlocks.getBlock(1, 5).setText("U");
@@ -179,7 +179,7 @@ public class WofBoardBlocksTest {
     @Test
     public void testGetUnusedCharsOnBoard() {
         final WofBoardBlocks boardBlocks = new WofBoardBlocks();
-        final ImmutableSet<Character> unusedChars;
+        final Set<Character> unusedChars;
 
         boardBlocks.getBlock(1, 4).setText("P");
         boardBlocks.getBlock(1, 5).setText("U");

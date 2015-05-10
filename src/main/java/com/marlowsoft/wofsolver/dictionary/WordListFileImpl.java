@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * File-backed implementation get get all words.
@@ -14,7 +15,7 @@ public class WordListFileImpl implements WordList {
     /**
      * All known words.
      */
-    final private ImmutableList<String> wordList;
+    final private List<String> wordList;
 
     /**
      *
@@ -32,7 +33,7 @@ public class WordListFileImpl implements WordList {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<String> getWordList() {
+    public List<String> getWordList() {
         return wordList;
     }
 }

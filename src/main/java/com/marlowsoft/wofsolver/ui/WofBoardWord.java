@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Defines a single word on the board.
@@ -37,7 +38,7 @@ public class WofBoardWord {
      * @return Known letters in this word where the key is the index of the character in the word
      * and the value is the character.
      */
-    public ImmutableMap<Integer, Character> getKnownLetters() {
+    public Map<Integer, Character> getKnownLetters() {
         final ImmutableMap.Builder<Integer, Character> knownLettersBuilder = ImmutableMap.builder();
 
         for(int boardBlockIdx = 0; boardBlockIdx < wordBlocks.size(); boardBlockIdx++) {

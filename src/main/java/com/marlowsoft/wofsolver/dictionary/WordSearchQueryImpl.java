@@ -3,14 +3,17 @@ package com.marlowsoft.wofsolver.dictionary;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Default implementation of {@link com.marlowsoft.wofsolver.dictionary.WordSearchQuery}.
  * This class is immutable.
  */
 public class WordSearchQueryImpl implements WordSearchQuery {
     private final int wordLength;
-    private final ImmutableSet<Character> usedLetters;
-    private final ImmutableMap<Integer, Character> knownLetters;
+    private final Set<Character> usedLetters;
+    private final Map<Integer, Character> knownLetters;
 
     /**
      * Private constructor. Build a new
@@ -23,8 +26,8 @@ public class WordSearchQueryImpl implements WordSearchQuery {
      *                     the value is the character.
      */
     private WordSearchQueryImpl(final int wordLength,
-                                final ImmutableSet<Character> usedLetters,
-                                final ImmutableMap<Integer, Character> knownLetters) {
+                                final Set<Character> usedLetters,
+                                final Map<Integer, Character> knownLetters) {
         this.wordLength = wordLength;
         this.usedLetters = usedLetters;
         this.knownLetters = knownLetters;
@@ -40,14 +43,14 @@ public class WordSearchQueryImpl implements WordSearchQuery {
     /**
      * {@inheritDoc}
      */
-    public ImmutableSet<Character> getUsedLetters() {
+    public Set<Character> getUsedLetters() {
         return usedLetters;
     }
 
     /**
      * {@inheritDoc}
      */
-    public ImmutableMap<Integer, Character> getKnownLetters() {
+    public Map<Integer, Character> getKnownLetters() {
         return knownLetters;
     }
 

@@ -5,6 +5,7 @@ import com.google.common.collect.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class contains a collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
@@ -13,7 +14,7 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
     public static final int COLUMN_COUNT = 14;
     public static final int ROW_COUNT = 4;
 
-    private final ImmutableList<ImmutableList<WofBoardBlock>> boardBlocks;
+    private final List<List<WofBoardBlock>> boardBlocks;
 
     /**
      * Initializes the collection of {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
@@ -29,7 +30,7 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
      */
     public WofBoardBlocks(final boolean suggestedBlocks) {
         // construct the boardBlock rows/columns
-        final ImmutableList.Builder<ImmutableList<WofBoardBlock>> boardBlockBuilder =
+        final ImmutableList.Builder<List<WofBoardBlock>> boardBlockBuilder =
                 ImmutableList.builder();
 
         for(int curRow = 0; curRow < ROW_COUNT; curRow++) {
@@ -170,7 +171,7 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
      * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
      * @return All used characters in this collection.
      */
-    public ImmutableSet<Character> getUsedCharsOnBoard() {
+    public Set<Character> getUsedCharsOnBoard() {
         final ImmutableSet.Builder<Character> usedCharsBuilder = ImmutableSet.builder();
         for(final WofBoardBlock wofBoardBlock : this) {
             final String wofBoardText = wofBoardBlock.getText();
@@ -187,9 +188,9 @@ public class WofBoardBlocks implements Iterable<WofBoardBlock> {
      * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
      * @return All unused characters (in the range A - Z) in this collection.
      */
-    public ImmutableSet<Character> getUnusedCharsOnBoard() {
+    public Set<Character> getUnusedCharsOnBoard() {
         final ImmutableSet.Builder<Character> unusedCharsBuilder = ImmutableSet.builder();
-        final ImmutableSet<Character> usedChars = getUsedCharsOnBoard();
+        final Set<Character> usedChars = getUsedCharsOnBoard();
         for(char curChar = 'A'; curChar <= 'Z'; curChar++) {
             if(!usedChars.contains(curChar)) {
                 unusedCharsBuilder.add(curChar);

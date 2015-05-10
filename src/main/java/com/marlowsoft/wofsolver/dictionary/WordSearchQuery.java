@@ -1,7 +1,7 @@
 package com.marlowsoft.wofsolver.dictionary;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Defines everything needed for a word search.
@@ -17,7 +17,7 @@ public interface WordSearchQuery {
      * Get all letters that have been used.
      * @return All letters that have been used.
      */
-    ImmutableSet<Character> getUsedLetters();
+    Set<Character> getUsedLetters();
 
     /**
      * Get all known letters in the word where
@@ -25,5 +25,5 @@ public interface WordSearchQuery {
      * the key is the known character.
      * @return All known letters in the word.
      */
-    ImmutableMap<Integer, Character> getKnownLetters();
+    Map<Integer, Character> getKnownLetters();
 }
