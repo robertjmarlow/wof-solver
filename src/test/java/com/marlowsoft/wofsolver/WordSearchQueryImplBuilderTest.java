@@ -15,7 +15,7 @@ public class WordSearchQueryImplBuilderTest {
      * {@link com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl} correctly.
      */
     @Test
-    public void TestWordSearchQueryBuild() {
+    public void testWordSearchQueryBuild() {
         final int expectedLength = 12;
         final ImmutableList<Character> expectedUsedLetters = ImmutableList.of('t', 'E', 's', 't');
         final ImmutableMap<Integer, Character> expectedKnownLetters = ImmutableMap.of(2, 'o', 3, 'b', 5, 'r');
