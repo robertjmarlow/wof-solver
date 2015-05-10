@@ -1,6 +1,5 @@
 package com.marlowsoft.wofsolver;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.bind.WofModule;
@@ -11,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Tests the {@link com.marlowsoft.wofsolver.dictionary.WordSearch} class.
@@ -28,7 +28,7 @@ public class WordSearchTest {
      * @throws IOException
      */
     @Test
-    public void TestWordSearchLimited() throws IOException {
+    public void testWordSearchLimited() throws IOException {
         final int matchedWordLimit = 18;
         final WordSearch wordSearch = injector.getInstance(WordSearch.class);
         final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
@@ -37,7 +37,7 @@ public class WordSearchTest {
         queryBuilder.addKnownLetter(3, 'l');
         queryBuilder.addKnownLetter(4, 'e');
 
-        final ImmutableList<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build(), matchedWordLimit);
+        final List<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build(), matchedWordLimit);
 
         // "apple" ought to be in here somewhere
         boolean foundAnApple = false;
@@ -56,14 +56,14 @@ public class WordSearchTest {
      * @throws IOException
      */
     @Test
-    public void TestWordSearchAll() throws IOException {
+    public void testWordSearchAll() throws IOException {
         final WordSearch wordSearch = injector.getInstance(WordSearch.class);
         final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
         queryBuilder.setWordLength(3);
         queryBuilder.addKnownLetter(0, 'd');
         queryBuilder.addKnownLetter(1, 'o');
 
-        final ImmutableList<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build());
+        final List<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build());
 
         // "dog" ought to be in here somewhere
         boolean foundADog = false;
@@ -81,7 +81,7 @@ public class WordSearchTest {
      * @throws IOException
      */
     @Test
-    public void TestWordSearchNoResults() throws IOException {
+    public void testWordSearchNoResults() throws IOException {
         // "Zzyzx" is an unincorporated town in California
         // http://en.wikipedia.org/wiki/Zzyzx,_California
         final WordSearch wordSearch = injector.getInstance(WordSearch.class);
@@ -93,7 +93,38 @@ public class WordSearchTest {
         queryBuilder.addKnownLetter(3, 'z');
         queryBuilder.addKnownLetter(4, 'x');
 
-        final ImmutableList<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build());
+        final List<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build());
         Assert.assertEquals(0, wordSearchResults.size());
+    }
+
+    /**
+     * Verifies the used letters collection can be used to correctly suggest a word.
+     */
+    @Test
+    public void testWordSearchWithUsedLetters() {
+        boolean foundACouch = false;
+        final WordSearch wordSearch = injector.getInstance(WordSearch.class);
+        final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder = new WordSearchQueryImpl.WordSearchQueryBuilder();
+
+        // let's look for a "couch". Craigslist would be helpful here, too.
+        queryBuilder.setWordLength(5);
+        queryBuilder.addKnownLetter(0, 'c');
+        queryBuilder.addKnownLetter(3, 'c');
+        queryBuilder.addUsedLetter('r');
+        queryBuilder.addUsedLetter('s');
+        queryBuilder.addUsedLetter('t');
+        queryBuilder.addUsedLetter('l');
+        queryBuilder.addUsedLetter('n');
+        queryBuilder.addUsedLetter('e');
+
+        final List<String> wordSearchResults = wordSearch.getMatchedWords(queryBuilder.build());
+
+        for(final String wordSearchResult : wordSearchResults) {
+            if(wordSearchResult.equals("couch")) {
+                foundACouch = true;
+                break;
+            }
+        }
+        Assert.assertTrue(foundACouch);
     }
 }

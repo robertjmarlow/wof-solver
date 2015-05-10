@@ -4,13 +4,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.inject.Inject;
 
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
  * Gets a collection of matched words based on a {@link WordSearchQueryImpl}.
  */
 public class WordSearch {
-    private final ImmutableList<String> dictionaryEntries;
+    private final List<String> dictionaryEntries;
     private final ImmutableMultimap<Integer, String> knownLengthEntries;
 
     /**
@@ -41,7 +43,7 @@ public class WordSearch {
      * @param searchQuery The query to match words.
      * @return <i>All</i> matched words, based on the specified query.
      */
-    public ImmutableList<String> getMatchedWords(final WordSearchQueryImpl searchQuery) {
+    public List<String> getMatchedWords(final WordSearchQueryImpl searchQuery) {
         // the length of all the dictionary entries ought to be a
         // good way to say, "give me everything".
         return getMatchedWords(searchQuery, dictionaryEntries.size());
@@ -53,7 +55,7 @@ public class WordSearch {
      * @param matchedWordLimit The maximum number of words to match.
      * @return A <i>maximum</i> of the specified amount of limit of matched words.
      */
-    public ImmutableList<String> getMatchedWords(final WordSearchQueryImpl searchQuery,
+    public List<String> getMatchedWords(final WordSearchQueryImpl searchQuery,
                                                  final int matchedWordLimit) {
         final ImmutableList.Builder<String> matchedWordsBuilder = ImmutableList.builder();
 
@@ -88,16 +90,31 @@ public class WordSearch {
      * word matches based on the specified {@link WordSearchQueryImpl}.
      */
     private Pattern getWordPattern(final WordSearchQueryImpl searchQuery) {
-        final StringBuilder stringBuilder = new StringBuilder();
+        final Set<Character> usedLetters = searchQuery.getUsedLetters();
+        final StringBuilder usedLettersRegexBuilder = new StringBuilder();
+        final String usedLettersRegex;
+        final StringBuilder regexStringBuilder = new StringBuilder();
 
-        // TODO this could be vastly improved by using the used letters collection
-        // for every known letter, insert the letter
-        // for every unknown letter, insert a '.', or a wildcard
-        for(int charIdx = 0; charIdx < searchQuery.getWordLength(); charIdx++) {
-            final Character knownLetter = searchQuery.getKnownLetters().get(charIdx);
-            stringBuilder.append(knownLetter != null ? knownLetter : '.');
+        // if there aren't any used letters, an "any letter" will have to do
+        if(usedLetters.isEmpty()) {
+            usedLettersRegexBuilder.append(".");
+        } else {
+            usedLettersRegexBuilder.append("[^");
+            for (final char usedLetter : usedLetters) {
+                usedLettersRegexBuilder.append(usedLetter);
+            }
+            usedLettersRegexBuilder.append("]");
         }
 
-        return Pattern.compile(stringBuilder.toString(), Pattern.CASE_INSENSITIVE);
+        usedLettersRegex = usedLettersRegexBuilder.toString();
+
+        // for every known letter, insert the letter
+        // for every unknown letter, use the used letters regex string
+        for(int charIdx = 0; charIdx < searchQuery.getWordLength(); charIdx++) {
+            final Character knownLetter = searchQuery.getKnownLetters().get(charIdx);
+            regexStringBuilder.append(knownLetter != null ? knownLetter : usedLettersRegex);
+        }
+
+        return Pattern.compile(regexStringBuilder.toString(), Pattern.CASE_INSENSITIVE);
     }
 }

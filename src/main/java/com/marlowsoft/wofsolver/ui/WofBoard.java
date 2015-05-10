@@ -3,7 +3,6 @@ package com.marlowsoft.wofsolver.ui;
 import com.google.common.collect.*;
 import com.google.inject.Injector;
 import com.marlowsoft.wofsolver.dictionary.WordSearch;
-import com.marlowsoft.wofsolver.dictionary.WordSearchQuery;
 import com.marlowsoft.wofsolver.dictionary.WordSearchQueryImpl;
 import com.marlowsoft.wofsolver.ui.event.*;
 
@@ -29,8 +28,8 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     private final WofBoardBlocks boardBlocks;
     private final WofBoardBlocks suggestedBoardBlocks;
     private final WordSearch wordSearch;
-    private final ImmutableMap<Character, LetterLabel> letterLabels;
-    private ImmutableList<WofBoardWord> boardWords;
+    private final Map<Character, LetterLabel> letterLabels;
+    private List<WofBoardWord> boardWords;
 
     // TODO would a "tutorial" mode be nice for the user?
 
@@ -100,7 +99,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
 
         // find suggestions for every word
         for(final WofBoardWord boardWord : boardWords) {
-            final ImmutableList<String> wordSearchResults =
+            final List<String> wordSearchResults =
                     getSuggestedWords(boardWord, 10);
 
             System.out.println("Found " + wordSearchResults.size() + ":");
@@ -117,7 +116,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      * @return Suggested words. This collection's maximum length will be
      * the specified suggestion limit.
      */
-    private ImmutableList<String> getSuggestedWords(final WofBoardWord wofBoardWord,
+    private List<String> getSuggestedWords(final WofBoardWord wofBoardWord,
                                                     final int suggestionLimit) {
         final WordSearchQueryImpl.WordSearchQueryBuilder queryBuilder =
                 new WordSearchQueryImpl.WordSearchQueryBuilder();
@@ -131,9 +130,9 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
             queryBuilder.addKnownLetter(entry.getKey(), entry.getValue());
         }
 
-        // set all unused letters
-        for(final Character usedChar : boardBlocks.getUnusedCharsOnBoard()) {
-            queryBuilder.addUsedLetter(usedChar);
+        // set all incorrect guesses
+        for(final Character incorrectChar : getIncorrectLetterGuesses()) {
+            queryBuilder.addUsedLetter(incorrectChar);
         }
 
         // let's find some words!
@@ -144,7 +143,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      * Create a collection of words on the board.
      * @return A collection of words on the board.
      */
-    private ImmutableList<WofBoardWord> getBoardWords() {
+    private List<WofBoardWord> getBoardWords() {
         final ImmutableList.Builder<WofBoardWord> boardWordBuilder = ImmutableList.builder();
 
         // go through all blocks on the board
@@ -176,6 +175,24 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
         }
 
         return boardWordBuilder.build();
+    }
+
+    /**
+     * Gets all characters marked as "incorrect guess" from the collection of letter labels.
+     * @return All characters marked as "incorrect guess".
+     */
+    private List<Character> getIncorrectLetterGuesses() {
+        final ImmutableList.Builder<Character> incorrectLettersBuilder =
+                new ImmutableList.Builder<Character>();
+
+        for(char curChar = 'A'; curChar <= 'Z'; curChar++) {
+            final LetterLabel letterLabel = letterLabels.get(curChar);
+            if(letterLabel.getGuessType() == LetterLabel.GuessType.INCORRECT) {
+                incorrectLettersBuilder.add(curChar);
+            }
+        }
+
+        return incorrectLettersBuilder.build();
     }
 
     /**
