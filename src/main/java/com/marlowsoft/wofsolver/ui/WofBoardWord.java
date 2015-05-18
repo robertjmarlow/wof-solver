@@ -17,12 +17,7 @@ public class WofBoardWord {
      * @param wordBlocks The {@link WofBoardBlock} collection that comprises this word.
      */
     public WofBoardWord(final List<WofBoardBlock> wordBlocks) {
-        final ImmutableList.Builder<WofBoardBlock> wordBlockBuilder = ImmutableList.builder();
-        for(final WofBoardBlock wofBoardBlock : wordBlocks) {
-            wordBlockBuilder.add(wofBoardBlock);
-        }
-
-        this.wordBlocks = wordBlockBuilder.build();
+        this.wordBlocks = ImmutableList.copyOf(wordBlocks);
     }
 
     /**
@@ -50,5 +45,24 @@ public class WofBoardWord {
         }
 
         return knownLettersBuilder.build();
+    }
+
+    /**
+     * Set the suggested words for this board word.
+     * @param suggestedWords The suggested words for this board word.
+     */
+    public void setSuggestedWords(final List<String> suggestedWords) {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("<html>");
+        for(final String suggestedWord : suggestedWords) {
+            stringBuilder.append(suggestedWord);
+            stringBuilder.append("<br />");
+        }
+        stringBuilder.append("</html>");
+
+        for(final WofBoardBlock wordBlock : wordBlocks) {
+            wordBlock.setToolTipText(stringBuilder.toString());
+        }
     }
 }

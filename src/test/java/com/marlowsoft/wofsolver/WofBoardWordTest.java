@@ -65,4 +65,19 @@ public class WofBoardWordTest {
         Assert.assertTrue(knownLetters.get(1).equals('B'));
         Assert.assertTrue(knownLetters.get(3).equals('C'));
     }
+
+    /**
+     * Verifies that setting the suggested words will create the proper html string.
+     */
+    @Test
+    public void testSetSuggestedWords() {
+        final WofBoardBlock wofBoardBlock = new WofBoardBlock(WofBoardBlock.BlockType.GLYPH);
+        final List<WofBoardBlock> boardBlocks = Lists.newArrayList();
+        boardBlocks.add(wofBoardBlock);
+
+        final WofBoardWord wofBoardWord = new WofBoardWord(boardBlocks);
+
+        wofBoardWord.setSuggestedWords(Lists.newArrayList("foo", "bar", "baz"));
+        Assert.assertEquals("<html>foo<br />bar<br />baz<br /></html>", wofBoardBlock.getToolTipText());
+    }
 }

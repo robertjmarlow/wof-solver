@@ -102,10 +102,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
             final List<String> wordSearchResults =
                     getSuggestedWords(boardWord, 10);
 
-            System.out.println("Found " + wordSearchResults.size() + ":");
-            for(int wordIdx = 0; wordIdx < wordSearchResults.size(); wordIdx++) {
-                System.out.println(" [" + wordIdx + "] " + wordSearchResults.get(wordIdx));
-            }
+            boardWord.setSuggestedWords(wordSearchResults);
         }
     }
 
