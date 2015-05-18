@@ -10,7 +10,7 @@ import java.util.Map;
  * Defines a single word on the board.
  */
 public class WofBoardWord {
-    private final ImmutableList<WofBoardBlock> wordBlocks;
+    private final List<WofBoardBlock> wordBlocks;
 
     /**
      *
