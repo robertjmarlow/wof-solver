@@ -77,7 +77,13 @@ public class WofBoardWordTest {
 
         final WofBoardWord wofBoardWord = new WofBoardWord(boardBlocks);
 
-        wofBoardWord.setSuggestedWords(Lists.newArrayList("foo", "bar", "baz"));
-        Assert.assertEquals("<html>foo<br />bar<br />baz<br /></html>", wofBoardBlock.getToolTipText());
+        wofBoardWord.setSuggestedWords(Lists.newArrayList("foo", "bar", "baz"), false);
+        final String tooltipText = wofBoardBlock.getToolTipText();
+
+        Assert.assertTrue(tooltipText.contains("Suggested Word(s)"));
+        Assert.assertTrue(tooltipText.contains("(3)"));
+        Assert.assertTrue(tooltipText.contains("foo"));
+        Assert.assertTrue(tooltipText.contains("bar"));
+        Assert.assertTrue(tooltipText.contains("baz"));
     }
 }

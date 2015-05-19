@@ -31,7 +31,9 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     private final Map<Character, LetterLabel> letterLabels;
     private List<WofBoardWord> boardWords;
 
-    // TODO would a "tutorial" mode be nice for the user?
+    private final static int WORD_SEARCH_LIMIT = 10;
+    private final static int TOOLTIP_INIT_DELAY = 0;
+    private final static int TOOLTIP_TIMEOUT = 30000;
 
     /**
      * Initializes all elements in the board.
@@ -39,6 +41,9 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
      * @param injector Injector that will be used to create new objects.
      */
     public WofBoard(final Injector injector) {
+        ToolTipManager.sharedInstance().setInitialDelay(TOOLTIP_INIT_DELAY);
+        ToolTipManager.sharedInstance().setDismissDelay(TOOLTIP_TIMEOUT);
+
         setContentPane(contentPane);
         setModal(true);
         setResizable(false);
@@ -100,9 +105,14 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
         // find suggestions for every word
         for(final WofBoardWord boardWord : boardWords) {
             final List<String> wordSearchResults =
-                    getSuggestedWords(boardWord, 10);
+                    getSuggestedWords(boardWord, WORD_SEARCH_LIMIT);
 
-            boardWord.setSuggestedWords(wordSearchResults);
+            boardWord.setSuggestedWords(wordSearchResults,
+                    wordSearchResults.size() == WORD_SEARCH_LIMIT);
+
+            if(wordSearchResults.size() == 1) {
+                // TODO if there's only one suggestion, then fill in the word in the suggested pane.
+            }
         }
     }
 

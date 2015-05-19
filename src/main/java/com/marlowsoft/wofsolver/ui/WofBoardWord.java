@@ -50,11 +50,19 @@ public class WofBoardWord {
     /**
      * Set the suggested words for this board word.
      * @param suggestedWords The suggested words for this board word.
+     * @param moreWords Whether or not there are actually more suggested words than are suggested in
+     *                  {@code suggestedWords}.
      */
-    public void setSuggestedWords(final List<String> suggestedWords) {
+    public void setSuggestedWords(final List<String> suggestedWords, final boolean moreWords) {
         final StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("<html>");
+        stringBuilder.append("<div><u><b>Suggested Word(s)</b> (");
+        if(moreWords) {
+            stringBuilder.append("more than ");
+        }
+        stringBuilder.append(suggestedWords.size());
+        stringBuilder.append(")</u></div>");
         for(final String suggestedWord : suggestedWords) {
             stringBuilder.append(suggestedWord);
             stringBuilder.append("<br />");
