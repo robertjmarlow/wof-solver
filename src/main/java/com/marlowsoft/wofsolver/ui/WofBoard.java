@@ -24,6 +24,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
     private JPanel suggestedSolutionPane;
     private JButton buttonStart;
     private JButton buttonResetBoard;
+    private JButton buttonHelp;
 
     private final WofBoardBlocks boardBlocks;
     private final WofBoardBlocks suggestedBoardBlocks;
@@ -82,6 +83,7 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
 
         buttonStart.addActionListener(new StartGameActionListener());
         buttonResetBoard.addActionListener(new ResetBoardActionListener());
+        buttonHelp.addActionListener(new HelpActionListener());
     }
 
     /**
@@ -248,6 +250,30 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
                 letterLabelEntry.getValue().setEnabled(true);
             }
             boardWords = getBoardWords();
+        }
+    }
+
+    /**
+     * Listener for clicking on the "Help" button.
+     */
+    private class HelpActionListener implements ActionListener {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final StringBuilder helpText = new StringBuilder();
+
+            helpText.append("Right-click on the board to the left to toggle letters on and off.\r\n");
+            helpText.append("When this board looks like the the board on TV, click \"Start Game\"\r\n");
+            helpText.append("Fill in letters on the board as contestants guess correctly.\r\n");
+            helpText.append("If a contestant guesses incorrectly, right-click on the letter in the " +
+                    "\"Used Letters section\" and select \"Mark as incorrect guess\".\r\n");
+            helpText.append("Hover over a word on the board on the left to get a suggested word list.\r\n");
+            helpText.append("If there's only one possible word, it will be filled in on the right board.\r\n");
+            helpText.append("Click \"Reset Board\" to start a new round.");
+
+            JOptionPane.showMessageDialog(null, helpText.toString());
         }
     }
 }
