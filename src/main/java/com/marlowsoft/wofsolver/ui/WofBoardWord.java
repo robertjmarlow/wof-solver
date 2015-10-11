@@ -11,13 +11,19 @@ import java.util.Map;
  */
 public class WofBoardWord {
     private final List<WofBoardBlock> wordBlocks;
+    private final int row;
+    private final int column;
 
     /**
      *
      * @param wordBlocks The {@link WofBoardBlock} collection that comprises this word.
+     * @param row The row this word begins on.
+     * @param column The column this word begins on.
      */
-    public WofBoardWord(final List<WofBoardBlock> wordBlocks) {
+    public WofBoardWord(final List<WofBoardBlock> wordBlocks, final int row, final int column) {
         this.wordBlocks = ImmutableList.copyOf(wordBlocks);
+        this.row = row;
+        this.column = column;
     }
 
     /**
@@ -26,6 +32,22 @@ public class WofBoardWord {
      */
     public int getLength() {
         return wordBlocks.size();
+    }
+
+    /**
+     * Gets the row this word begins on.
+     * @return The row this word begins on.
+     */
+    public int getRow() {
+        return row;
+    }
+
+    /**
+     * Gets the column this word begins on.
+     * @return The column this word begins on.
+     */
+    public int getColumn() {
+        return column;
     }
 
     /**

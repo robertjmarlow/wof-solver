@@ -112,8 +112,28 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
             boardWord.setSuggestedWords(wordSearchResults,
                     wordSearchResults.size() == WORD_SEARCH_LIMIT);
 
+            // if there's only one suggestion, then fill in the word in the suggested pane.
             if(wordSearchResults.size() == 1) {
-                // TODO if there's only one suggestion, then fill in the word in the suggested pane.
+                // since this is in a block that is already in an event handler,
+                // an invokeLater is needed to call setText in the boardblock.
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String suggestedWord = wordSearchResults.get(0);
+                        int suggestedWordIdx = 0;
+                        final int row = boardWord.getRow();
+                        final int column = boardWord.getColumn();
+
+                        for(int curColumn = column;
+                            curColumn < column + boardWord.getLength();
+                            curColumn++, suggestedWordIdx++) {
+                            final WofBoardBlock boardBlock =
+                                    suggestedBoardBlocks.getBlock(row, curColumn);
+                            boardBlock.setText(suggestedWord.substring(suggestedWordIdx,
+                                    suggestedWordIdx + 1));
+                        }
+                    }
+                });
             }
         }
     }
@@ -176,7 +196,10 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
                 else if(wofBoardBlock.getBlockType() == WofBoardBlock.BlockType.NO_GLYPH ||
                         curColumn == WofBoardBlocks.COLUMN_COUNT - 1) {
                     if(readingAWord) {
-                        boardWordBuilder.add(new WofBoardWord(boardWord));
+                        boardWordBuilder.add(
+                                new WofBoardWord(boardWord,
+                                        curRow,
+                                        curColumn - boardWord.size()));
                     }
                     readingAWord = false;
                 }
@@ -262,18 +285,17 @@ public class WofBoard extends JDialog implements BlockValueChangedListener {
          */
         @Override
         public void actionPerformed(final ActionEvent event) {
-            final StringBuilder helpText = new StringBuilder();
+            final String helpText =
+                "Right-click on the board to the left to toggle letters on and off.\r\n" +
+                "When this board looks like the the board on TV, click \"Start Game\"\r\n" +
+                "Fill in letters on the board as contestants guess correctly.\r\n" +
+                "If a contestant guesses incorrectly, right-click on the letter in the " +
+                "\"Used Letters section\" and select \"Mark as incorrect guess\".\r\n" +
+                "Hover over a word on the board on the left to get a suggested word list.\r\n" +
+                "If there's only one possible word, it will be filled in on the right board.\r\n" +
+                "Click \"Reset Board\" to start a new round.";
 
-            helpText.append("Right-click on the board to the left to toggle letters on and off.\r\n");
-            helpText.append("When this board looks like the the board on TV, click \"Start Game\"\r\n");
-            helpText.append("Fill in letters on the board as contestants guess correctly.\r\n");
-            helpText.append("If a contestant guesses incorrectly, right-click on the letter in the " +
-                    "\"Used Letters section\" and select \"Mark as incorrect guess\".\r\n");
-            helpText.append("Hover over a word on the board on the left to get a suggested word list.\r\n");
-            helpText.append("If there's only one possible word, it will be filled in on the right board.\r\n");
-            helpText.append("Click \"Reset Board\" to start a new round.");
-
-            JOptionPane.showMessageDialog(null, helpText.toString());
+            JOptionPane.showMessageDialog(null, helpText);
         }
     }
 }

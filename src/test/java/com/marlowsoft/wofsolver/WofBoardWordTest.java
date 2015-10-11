@@ -19,14 +19,14 @@ public class WofBoardWordTest {
     @Test
     public void testGetLength() {
         final List<WofBoardBlock> boardBlocks = Lists.newArrayList();
-        WofBoardWord boardWord = new WofBoardWord(boardBlocks);
+        WofBoardWord boardWord = new WofBoardWord(boardBlocks, 0, 0);
 
         Assert.assertEquals(0, boardWord.getLength());
 
         boardBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.GLYPH));
         boardBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.GLYPH));
         boardBlocks.add(new WofBoardBlock(WofBoardBlock.BlockType.GLYPH));
-        boardWord = new WofBoardWord(boardBlocks);
+        boardWord = new WofBoardWord(boardBlocks, 0, 0);
 
         Assert.assertEquals(3, boardWord.getLength());
     }
@@ -37,7 +37,7 @@ public class WofBoardWordTest {
     @Test
     public void testGetKnownLetters() {
         final List<WofBoardBlock> boardBlocks = Lists.newArrayList();
-        WofBoardWord boardWord = new WofBoardWord(boardBlocks);
+        WofBoardWord boardWord = new WofBoardWord(boardBlocks, 0, 0);
 
         Assert.assertEquals(0, boardWord.getKnownLetters().entrySet().size());
 
@@ -57,7 +57,7 @@ public class WofBoardWordTest {
         boardBlock.setText("C");
         boardBlocks.add(boardBlock);
 
-        boardWord = new WofBoardWord(boardBlocks);
+        boardWord = new WofBoardWord(boardBlocks,0 ,0);
 
         final Map<Integer, Character> knownLetters = boardWord.getKnownLetters();
 
@@ -75,7 +75,7 @@ public class WofBoardWordTest {
         final List<WofBoardBlock> boardBlocks = Lists.newArrayList();
         boardBlocks.add(wofBoardBlock);
 
-        final WofBoardWord wofBoardWord = new WofBoardWord(boardBlocks);
+        final WofBoardWord wofBoardWord = new WofBoardWord(boardBlocks, 0, 0);
 
         wofBoardWord.setSuggestedWords(Lists.newArrayList("foo", "bar", "baz"), false);
         final String tooltipText = wofBoardBlock.getToolTipText();

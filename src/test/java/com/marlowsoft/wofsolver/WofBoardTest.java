@@ -156,4 +156,77 @@ public class WofBoardTest {
         Assert.assertEquals(WofBoardBlock.BlockType.NO_GLYPH, suggestedBoardBlock.getBlockType());
         Assert.assertFalse(letterLabel.isEnabled());
     }
+
+    /**
+     * Verifies that if there's a single suggestion for a board word, then that word will be filled in
+     * on the "suggested solution".
+     */
+    @Test
+    public void testGetSingleSuggestedWord() throws InterruptedException {
+        final WofBoard wofBoard = new WofBoard(injector);
+
+        wofBoard.pack();
+        wofBoard.setModal(false);
+        wofBoard.setVisible(true);
+
+        final Container container = wofBoard.getContentPane();
+        final JPanel gamePanel  = (JPanel)container.getComponent(1);
+        final JPanel suggestionPanel  = (JPanel)container.getComponent(2);
+        final JPanel controlPanel = (JPanel)container.getComponent(3);
+        final JButton startGameButton = (JButton)controlPanel.getComponent(1);
+        final Point startGameButtonPoint = startGameButton.getLocationOnScreen();
+
+        // set a bunch of board blocks to glyph blocks
+        WofBoardBlock boardBlock = (WofBoardBlock)gamePanel.getComponent(1);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(2);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(3);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(4);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(5);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(6);
+        boardBlock.setBlockType(WofBoardBlock.BlockType.GLYPH);
+
+        // start the game
+        robot.mouseMove(startGameButtonPoint.x, startGameButtonPoint.y);
+        robot.mousePress(InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+
+        // fill in a few letters to get the word "unique"
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(1);
+        boardBlock.setText("U");
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(4);
+        boardBlock.setText("Q");
+
+        boardBlock = (WofBoardBlock)gamePanel.getComponent(6);
+        boardBlock.setText("E");
+
+        wofBoard.onBlockValueChanged();
+
+        // since there's a call to queue up the function to update the "suggested words",
+        //  wait for a bit to make sure that the function executes
+        Thread.currentThread().sleep(250);
+
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(1);
+        Assert.assertEquals("U", boardBlock.getText());
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(2);
+        Assert.assertEquals("N", boardBlock.getText());
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(3);
+        Assert.assertEquals("I", boardBlock.getText());
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(4);
+        Assert.assertEquals("Q", boardBlock.getText());
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(5);
+        Assert.assertEquals("U", boardBlock.getText());
+        boardBlock = (WofBoardBlock)suggestionPanel.getComponent(6);
+        Assert.assertEquals("E", boardBlock.getText());
+    }
 }

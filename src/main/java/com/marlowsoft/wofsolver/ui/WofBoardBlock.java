@@ -20,6 +20,8 @@ public class WofBoardBlock extends JTextField {
     private static final int FONT_SIZE = 36;
     private static final Font blockFont = new Font(Font.SERIF, Font.BOLD, FONT_SIZE);
 
+    private final boolean suggestedBlock;
+
     private boolean isLocked;
 
     // TODO make the border bigger; the real board blocks have big, chunky borders
@@ -55,6 +57,7 @@ public class WofBoardBlock extends JTextField {
         setColumns(1);
         setHorizontalAlignment(SwingConstants.CENTER);
         setEditable(false);
+        this.suggestedBlock = suggestedBlock;
 
         if(!suggestedBlock) {
             addMouseListener(new BoardBlockEventListener());
@@ -76,7 +79,7 @@ public class WofBoardBlock extends JTextField {
             case GLYPH:
                 setBackground(GLYPH_BG_COLOR);
                 setDocument(new BoardBlockFieldLimit());
-                getDocument().addDocumentListener(new BoardBlockDocumentListener());
+                getDocument().addDocumentListener(new BoardBlockDocumentListener(suggestedBlock));
                 break;
             case NO_GLYPH:
                 setBackground(NO_GLYPH_BG_COLOR);
@@ -207,12 +210,24 @@ public class WofBoardBlock extends JTextField {
      * {@link com.marlowsoft.wofsolver.ui.WofBoardBlock}.
      */
     private static class BoardBlockDocumentListener implements DocumentListener {
+        private final boolean suggestedBlock;
+
+        /**
+         *
+         * @param suggestedBlock Whether or not this block is a "suggested block"
+         */
+        public BoardBlockDocumentListener(final boolean suggestedBlock) {
+            this.suggestedBlock = suggestedBlock;
+        }
+
         /**
          * {@inheritDoc}
          */
         @Override
         public void insertUpdate(final DocumentEvent documentEvent) {
-            BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+            if(!suggestedBlock) {
+                BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+            }
         }
 
         /**
@@ -220,7 +235,9 @@ public class WofBoardBlock extends JTextField {
          */
         @Override
         public void removeUpdate(final DocumentEvent documentEvent) {
-            BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+            if(!suggestedBlock) {
+                BlockValueChangedDispatcher.dispatchOnBlockCharChanged();
+            }
         }
 
         /**
